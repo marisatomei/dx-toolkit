@@ -10,6 +10,7 @@ description: 'Test-driven development using the red-green-refactor loop. Enforce
 TDD is a **development discipline**, not a testing strategy. The goal is not test coverage — it is **design feedback**. Writing a test before code forces you to design the interface before the implementation.
 
 The loop:
+
 ```
 RED ──→ GREEN ──→ REFACTOR ──→ RED ──→ ...
 ```
@@ -32,14 +33,17 @@ Repeat for every behavior.
 ## The Core Rule: Vertical Slices Only
 
 **Anti-pattern — horizontal slicing:**
+
 ```
 Day 1: Write ALL tests for the feature
 Day 2: Write ALL implementation
 Day 3: Fix everything that's broken
 ```
+
 This defeats TDD. You get no design feedback. You discover interface problems too late.
 
 **Correct — vertical slicing:**
+
 ```
 Hour 1: RED   — write test for behavior A
 Hour 1: GREEN — implement behavior A (only what's needed)
@@ -57,17 +61,20 @@ Each vertical slice delivers working, tested behavior. The feature grows increme
 Start with a **tracer bullet** — the thinnest possible end-to-end path through the feature that exercises the real integration points.
 
 **What a tracer bullet is:**
+
 - A test that exercises the full path from input to output
 - Uses real implementations (no mocks) wherever possible
 - May be slow — that's acceptable for the first test
 - Proves the plumbing works before building the details
 
 **What a tracer bullet is NOT:**
+
 - An E2E test that tests every behavior (that comes after)
 - A unit test that mocks everything except one class
 - The happy path only — include the most likely error path
 
 **Example tracer bullet sequence:**
+
 ```
 1. POST /api/users creates a user and returns 201         ← tracer bullet
 2. POST /api/users with duplicate email returns 409
@@ -83,12 +90,14 @@ Start with test 1. Don't write test 2 until test 1 is GREEN.
 ### RED Phase
 
 Write a single test that:
+
 - Tests **one behavior** (not one function)
 - Has a clear, specific assertion
 - Has a name that reads as a sentence: `should [behavior] when [condition]`
 - Fails for the right reason (not a syntax error, not a missing import)
 
 **Check before proceeding:**
+
 - [ ] The test fails (RED) — if it passes without code, the test is wrong
 - [ ] The failure message is the one you expected
 - [ ] The test name clearly describes the intended behavior
@@ -113,12 +122,14 @@ it('should call UserRepository.findByEmail', async () => {
 Write the **minimum code** to make the test pass. No more.
 
 **Rules:**
+
 - Do not write code for behaviors not yet tested
 - Do not abstract prematurely — duplication is fine at this stage
 - If you catch yourself writing code "just in case," stop
 - The goal is GREEN, not perfect
 
 **Check before proceeding:**
+
 - [ ] The test is GREEN
 - [ ] You haven't written code for untested behaviors
 - [ ] The full test suite still passes (no regressions)
@@ -126,17 +137,20 @@ Write the **minimum code** to make the test pass. No more.
 ### REFACTOR Phase
 
 With tests green, improve the code:
+
 - Extract duplication into well-named abstractions
 - Rename variables and functions to match domain vocabulary (see `CONTEXT.md`)
 - Simplify control flow
 - Move code to its correct location (wrong file/module is a code smell)
 
 **Rules:**
+
 - Tests must remain GREEN throughout refactoring — run them after every change
 - Do not add new behavior during refactor (that's the next RED phase)
 - Do not refactor speculatively — only remove duplication that actually exists
 
 **Check before proceeding:**
+
 - [ ] All tests still GREEN
 - [ ] Code is simpler than before (fewer lines, better names, less duplication)
 - [ ] No new abstractions added that aren't tested
@@ -144,6 +158,7 @@ With tests green, improve the code:
 ## Test Design Principles
 
 ### Test behavior, not implementation
+
 ```typescript
 // Tests behavior (survives refactoring)
 expect(cart.total).toBe(150)
@@ -153,14 +168,17 @@ expect(cart.lineItems[0].calculateSubtotal).toHaveBeenCalled()
 ```
 
 ### One assertion per test (usually)
+
 Multiple assertions are acceptable when they test the same behavior from different angles. They are not acceptable when they test different behaviors.
 
 ### Test the contract, not the internals
+
 - Test public interfaces, not private methods
 - Test inputs and outputs, not intermediate state
 - Private methods are implementation details — if they need testing, they may need to be public
 
 ### Arrange-Act-Assert
+
 ```
 // Arrange: set up state
 const cart = new Cart()
@@ -176,12 +194,14 @@ expect(total).toBe(150)
 ## Mocking Strategy
 
 Mock at **boundaries** only:
+
 - External network calls (HTTP, database, message queue)
 - Time (`Date.now()`, `new Date()`)
 - File system (when testing logic, not file operations)
 - Third-party services
 
 **Do NOT mock:**
+
 - Your own modules — if you mock your own code, you test nothing
 - Value objects and pure functions
 - Simple data containers
@@ -200,6 +220,7 @@ This guarantees the bug stays fixed. A bug without a regression test will return
 ## Verification
 
 A TDD session is healthy when:
+
 - [ ] Every new behavior has at least one test
 - [ ] No test was written after the code it tests (except regression tests)
 - [ ] All tests pass

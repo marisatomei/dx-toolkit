@@ -42,17 +42,20 @@ CONSTRAINTS: [Known limitations: time, compatibility, team size, etc.]
 Before grilling, check whether a `CONTEXT.md` exists at the repo root.
 
 **If CONTEXT.md exists:**
+
 - Read it first
 - Use its defined terms throughout the session
 - If the plan introduces new terms not in CONTEXT.md, add them
 
 **If CONTEXT.md doesn't exist:**
+
 - This session will create the first version
 - Start with a minimal vocabulary section
 
 ### Step 3 — The Grill
 
 Ask one question at a time. For each question:
+
 - State the question clearly
 - Provide a recommended answer (default assumption if the person doesn't have a preference)
 - Wait for confirmation or correction before proceeding
@@ -60,20 +63,24 @@ Ask one question at a time. For each question:
 **Question categories to cover:**
 
 **Terminology:**
+
 - What do you mean by [X]? Is it the same as [Y]?
 - When you say [term], do you mean [interpretation A] or [interpretation B]?
 
 **Scope:**
+
 - What is explicitly OUT of scope for this change?
 - What existing behavior must not change?
 - What are the failure modes we need to handle?
 
 **Decisions:**
+
 - Why [this approach] over [alternative]?
 - What would make you reconsider this decision?
 - Who needs to sign off before we proceed?
 
 **Dependencies:**
+
 - What does this touch that isn't obvious?
 - What other teams, systems, or features depend on this?
 
@@ -84,27 +91,33 @@ Continue until the plan has no unresolved ambiguity.
 After the grilling session, update (or create) `CONTEXT.md` with any new or clarified terms.
 
 **CONTEXT.md format:**
+
 ```markdown
 # Context
 
 ## Domain Vocabulary
 
 ### [Term]
+
 [One-sentence definition as used in THIS codebase — not the dictionary definition]
 Example: `User` — an authenticated account holder. Distinct from `Guest` (unauthenticated) and `Admin` (elevated permissions).
 
 ### [Term]
+
 ...
 
 ## Key Constraints
+
 - [Constraint discovered in grilling sessions]
 - ...
 
 ## Open Questions
+
 - [Question not yet resolved with a link to the GitHub issue]
 ```
 
 **Rules for CONTEXT.md:**
+
 - Use the terms the codebase actually uses, not ideal names
 - Each term gets one definition — no synonyms, no alternatives
 - If a term means different things in different contexts, define both with their context qualifier
@@ -117,19 +130,24 @@ For each significant decision made during the grill, create an ADR.
 **Location:** `docs/adr/NNNN-short-title.md`
 
 **ADR template:**
+
 ```markdown
 # ADR-NNNN: [Short title]
 
 ## Status
+
 Accepted | Proposed | Superseded by ADR-MMMM
 
 ## Context
+
 [1-3 sentences: what situation led to this decision?]
 
 ## Decision
+
 [1-2 sentences: what was decided?]
 
 ## Consequences
+
 **Positive:** [what this enables]
 **Negative:** [what this prevents or costs]
 **Neutral:** [what changes but is neither good nor bad]
@@ -140,6 +158,7 @@ Number ADRs sequentially. Link from CONTEXT.md when a vocabulary term is shaped 
 ### Step 6 — Confirm Alignment
 
 Before closing:
+
 - [ ] Summarize the key decisions from the session
 - [ ] Confirm CONTEXT.md reflects the agreed vocabulary
 - [ ] Any ADRs created are linked
@@ -148,6 +167,7 @@ Before closing:
 ## Verification
 
 The session is complete when:
+
 - [ ] The plan has no unresolved terminology ambiguity
 - [ ] `CONTEXT.md` is updated with all new terms from this session
 - [ ] Significant architectural decisions have ADRs

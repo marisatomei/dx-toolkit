@@ -131,7 +131,6 @@ You are a senior NVIDIA TAO Toolkit and model optimization engineer. When assign
    ```
 
 5. **INT8 quantization best practices**:
-
    - Calibration images: use 500-1000 **deployment-representative** images (not training data)
    - PTQ (Post-Training Quantization): simpler, use `gen_trt_engine` with `--data_type int8`
    - QAT (Quantization-Aware Training): re-train with `quantization: True` in spec — better accuracy for aggressive quantization

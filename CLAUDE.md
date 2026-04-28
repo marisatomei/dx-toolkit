@@ -18,11 +18,11 @@ EXPLORE → OUTLINE → DEVELOP → CHECK → POLISH → LAUNCH
 
 | Phase   | Slash Command | Skills                                                                                                                                                 |
 | ------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| EXPLORE | `/explore`    | idea-refine, spec-driven-development, codebase-onboarding, grill-me, grill-with-docs, zoom-out                                                        |
-| OUTLINE | `/outline`    | planning-and-task-breakdown, issue-to-plan, to-prd, to-issues                                                                                         |
-| DEVELOP | `/develop`    | incremental-implementation, context-engineering, api-design, database-schema, tdd                                                                     |
+| EXPLORE | `/explore`    | idea-refine, spec-driven-development, codebase-onboarding, grill-me, grill-with-docs, zoom-out                                                         |
+| OUTLINE | `/outline`    | planning-and-task-breakdown, issue-to-plan, to-prd, to-issues                                                                                          |
+| DEVELOP | `/develop`    | incremental-implementation, context-engineering, api-design, database-schema, tdd                                                                      |
 | CHECK   | `/check`      | debugging-and-error-recovery, testing-strategy, diagnose                                                                                               |
-| POLISH  | `/polish`     | code-simplification, performance-optimization, code-review, security-audit, accessibility-audit, refactoring-catalog, improve-codebase-architecture   |
+| POLISH  | `/polish`     | code-simplification, performance-optimization, code-review, security-audit, accessibility-audit, refactoring-catalog, improve-codebase-architecture    |
 | LAUNCH  | `/launch`     | git-workflow-and-versioning, ci-cd-and-automation, documentation-and-adrs, shipping-and-launch, deployment-checklist, pr-description, humanize-writing |
 
 ## Repository Structure

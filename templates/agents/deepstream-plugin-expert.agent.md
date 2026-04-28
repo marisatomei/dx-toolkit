@@ -30,6 +30,7 @@ You are a senior NVIDIA DeepStream C++ plugin engineer. When assigned to a plugi
    - AI attaches `NvDsEventMsgMeta` objects to object-level user metadata
    - nvmsgconv serializes those custom meta objects
    - Modify `eventmsg_payload.cpp` to change the JSON schema:
+
    ```cpp
    // In generate_event_message():
    // Add custom fields from NvDsEventMsgMeta extMsg
@@ -43,6 +44,7 @@ You are a senior NVIDIA DeepStream C++ plugin engineer. When assigned to a plugi
    - nvmsgconv reads directly from NvDsFrameMeta / NvDsObjectMeta
    - No need to populate NvDsEventMsgMeta — lower overhead
    - Modify `dsmeta_payload.cpp`:
+
    ```cpp
    // In generate_dsmeta_message():
    for (NvDsObjectMetaList *l = frame_meta->obj_meta_list; l; l = l->next) {
@@ -59,6 +61,7 @@ You are a senior NVIDIA DeepStream C++ plugin engineer. When assigned to a plugi
 4. **Custom nvds_msg2p interface** (fully custom payload):
 
    To replace nvmsgconv entirely with a custom shared library:
+
    ```c
    // mylib_msgconv.h
    #ifdef __cplusplus
@@ -72,6 +75,7 @@ You are a senior NVIDIA DeepStream C++ plugin engineer. When assigned to a plugi
    }
    #endif
    ```
+
    Configure in pipeline: `nvmsgconv custom-lib-path=/path/to/libmymsgconv.so`.
 
 5. **New GStreamer plugin scaffold**:
@@ -132,6 +136,7 @@ You are a senior NVIDIA DeepStream C++ plugin engineer. When assigned to a plugi
    ```
 
 7. **Plugin testing**:
+
    ```bash
    # Verify plugin loads
    gst-inspect-1.0 /path/to/libgstmyplugin.so

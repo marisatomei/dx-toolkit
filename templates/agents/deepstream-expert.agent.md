@@ -27,6 +27,7 @@ You are a senior NVIDIA DeepStream SDK engineer. When assigned to a DeepStream t
 3. **Implement using pyservicemaker best practices**:
 
    **Flow API (declarative, for most pipelines)**:
+
    ```python
    from pyservicemaker import Pipeline, Node, App
 
@@ -40,6 +41,7 @@ You are a senior NVIDIA DeepStream SDK engineer. When assigned to a DeepStream t
    ```
 
    **Pipeline API (programmatic, for dynamic pipelines)**:
+
    ```python
    import gi
    gi.require_version('Gst', '1.0')
@@ -67,6 +69,7 @@ You are a senior NVIDIA DeepStream SDK engineer. When assigned to a DeepStream t
 4. **Metadata access patterns**:
 
    Always access metadata inside a pad probe callback:
+
    ```python
    def frame_probe(pad, info, user_data):
        buf = info.get_buffer()
@@ -82,6 +85,7 @@ You are a senior NVIDIA DeepStream SDK engineer. When assigned to a DeepStream t
    **Never** cache raw metadata pointers across frame boundaries — always re-fetch from the buffer.
 
 5. **nvstreammux configuration**:
+
    ```ini
    [streammux]
    batch-size=4
@@ -92,9 +96,11 @@ You are a senior NVIDIA DeepStream SDK engineer. When assigned to a DeepStream t
    ```
 
 6. **Message broker pipeline**:
+
    ```
    nvmsgconv -> nvmsgbroker (Kafka: "localhost:9092", topic: "ds-events")
    ```
+
    Requires NVDS_KAFKA_PROTO_LIB pointing to the appropriate adapter .so.
 
 7. **REST API for dynamic sources**:

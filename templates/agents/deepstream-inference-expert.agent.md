@@ -60,7 +60,6 @@ You are a senior NVIDIA DeepStream inference and TensorRT expert. When assigned 
    | 100 | Custom (requires custom-lib-path) |
 
 4. **Engine optimization**:
-
    - **FP16**: `network-mode=2` — near-zero accuracy loss, 2x throughput on Ampere+
    - **INT8**: `network-mode=1` — requires calibration:
      ```ini
@@ -74,6 +73,7 @@ You are a senior NVIDIA DeepStream inference and TensorRT expert. When assigned 
 5. **Custom post-processing library**:
 
    When `network-type=100` or the built-in parsers don't match the model's output format:
+
    ```cpp
    // libcustom_parser.cpp
    extern "C" bool NvDsInferParseCustom(
@@ -86,6 +86,7 @@ You are a senior NVIDIA DeepStream inference and TensorRT expert. When assigned 
        return true;
    }
    ```
+
    Configure: `parse-bbox-func-name=NvDsInferParseCustom`, `custom-lib-path=libcustom_parser.so`
 
 6. **Cascaded PGIE → SGIE inference**:
@@ -96,16 +97,20 @@ You are a senior NVIDIA DeepStream inference and TensorRT expert. When assigned 
                -> nvinfer(gie-id=2, operate-on-gie-id=1, operate-on-class-ids=0, type=classifier)
                -> nvinfer(gie-id=3, operate-on-gie-id=1, operate-on-class-ids=2, type=classifier)
    ```
+
    Each SGIE crops the detected object region and runs its own inference. Match `operate-on-gie-id` to the PGIE's `gie-unique-id`.
 
 7. **Triton Inference Server** (`nvdsinferserver`):
 
    Use when models are already deployed on Triton or need multi-framework support (PyTorch, TF, ONNX, TRT):
+
    ```ini
    [property]
    config-file-path=config_triton_infer.pbtxt  # protobuf config
    ```
+
    Triton config file:
+
    ```protobuf
    infer_config {
      unique_id: 1
@@ -134,12 +139,12 @@ You are a senior NVIDIA DeepStream inference and TensorRT expert. When assigned 
    display-tracking-id=1
    ```
 
-   | Tracker | Best for | Config file |
-   |---|---|---|
-   | NvDCF | Accuracy, occlusion handling | `config_tracker_NvDCF_*.yml` |
-   | DeepSORT | Re-ID across scenes | `config_tracker_DeepSORT.yml` |
-   | IOU | Speed, simple scenes | `config_tracker_IOU.yml` |
-   | NvSORT | Kalman-based, balanced | `config_tracker_NvSORT.yml` |
+   | Tracker  | Best for                     | Config file                   |
+   | -------- | ---------------------------- | ----------------------------- |
+   | NvDCF    | Accuracy, occlusion handling | `config_tracker_NvDCF_*.yml`  |
+   | DeepSORT | Re-ID across scenes          | `config_tracker_DeepSORT.yml` |
+   | IOU      | Speed, simple scenes         | `config_tracker_IOU.yml`      |
+   | NvSORT   | Kalman-based, balanced       | `config_tracker_NvSORT.yml`   |
 
 ## Constraints
 

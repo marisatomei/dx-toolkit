@@ -17,14 +17,14 @@ description: 'Write a custom GStreamer plugin or customize the nvmsgconv schema 
 
 ### 1. Identify the plugin type
 
-| Task | What to do |
-|---|---|
-| Change JSON field names/structure | Modify `nvmsgconv.cpp` or `eventmsg_payload.cpp` |
-| Add fields from custom NvDsEventMsgMeta | Modify `eventmsg_payload.cpp` |
+| Task                                            | What to do                                           |
+| ----------------------------------------------- | ---------------------------------------------------- |
+| Change JSON field names/structure               | Modify `nvmsgconv.cpp` or `eventmsg_payload.cpp`     |
+| Add fields from custom NvDsEventMsgMeta         | Modify `eventmsg_payload.cpp`                        |
 | Skip NvDsEventMsgMeta, read from NvDsObjectMeta | Set `msg2p-newapi=true`, modify `dsmeta_payload.cpp` |
-| Fully custom payload schema | Implement `nvds_msg2p` interface in a new .so |
-| Custom input source | New `GstBaseSrc` subclass |
-| Custom metadata transform | New `GstBaseTransform` subclass |
+| Fully custom payload schema                     | Implement `nvds_msg2p` interface in a new .so        |
+| Custom input source                             | New `GstBaseSrc` subclass                            |
+| Custom metadata transform                       | New `GstBaseTransform` subclass                      |
 
 ### 2. Set up the project structure
 
@@ -40,6 +40,7 @@ myplugin/
 ```
 
 For nvmsgconv customization:
+
 ```
 custom_nvmsgconv/
 ├── CMakeLists.txt
@@ -198,6 +199,7 @@ install(TARGETS gstmyplugin DESTINATION ${DS_ROOT}/lib/gst-plugins/)
 For schema changes without a full custom library:
 
 **a. Enable newapi mode** in `msgconv_config.txt`:
+
 ```ini
 [sensor0]
 enable=1
@@ -208,6 +210,7 @@ msg2p-newapi=true           # read from NvDsFrameMeta directly
 ```
 
 **b. Modify `dsmeta_payload.cpp`** (newapi path) to add custom fields:
+
 ```cpp
 // In generate_dsmeta_message(), inside the object loop:
 Json::Value obj_json;
@@ -220,6 +223,7 @@ objects.append(obj_json);
 ```
 
 **c. Rebuild and install**:
+
 ```bash
 mkdir build && cd build
 cmake .. -DDS_ROOT=/opt/nvidia/deepstream/deepstream

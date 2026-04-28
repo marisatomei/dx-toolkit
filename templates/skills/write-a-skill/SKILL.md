@@ -10,12 +10,14 @@ description: 'Create a new skill for dx-toolkit. Guides through gathering requir
 A skill is a structured, repeatable workflow for a specific task. This meta-skill guides you through creating a new one correctly — from understanding what makes a good skill to writing the file and reviewing it against standards.
 
 **Skills that work well:**
+
 - Have a clear trigger condition ("use when X")
 - Have a clear stop condition ("done when Y")
 - Give enough structure that two different people would produce similar results
 - Are self-contained — all necessary context is in the SKILL.md
 
 **Skills that don't work:**
+
 - Vague at either end (unclear when to start, unclear when to stop)
 - Require reading other files to understand
 - Describe what to do without explaining why the steps are in that order
@@ -35,19 +37,22 @@ A skill is a structured, repeatable workflow for a specific task. This meta-skil
 All skills live at `templates/skills/<name>/SKILL.md`.
 
 **Required frontmatter:**
+
 ```yaml
 ---
-name: skill-name           # kebab-case, matches folder name
-description: '...'         # one sentence: what it does + when to use it
+name: skill-name # kebab-case, matches folder name
+description: '...' # one sentence: what it does + when to use it
 ---
 ```
 
 **Required sections:**
+
 - `## Overview` — What this skill does and the core insight behind it
 - `## When to Use` — Clear trigger conditions + "When NOT to use" to prevent misapplication
 - `## Process` (or `## The [Name] Loop/Cycle/Steps`) — The step-by-step procedure
 
 **Recommended sections:**
+
 - `## Verification` — How to know the skill is complete (checklist)
 - `## Common Rationalizations` or `## Red Flags` — Anti-patterns to catch
 - Examples with before/after where the workflow transforms something
@@ -77,12 +82,14 @@ If you can't answer TRIGGER and OUTCOME clearly, the skill isn't ready to be wri
 ### Step 2 — Draft the Skeleton
 
 Create the folder and file:
+
 ```bash
 mkdir -p templates/skills/<name>
 touch templates/skills/<name>/SKILL.md
 ```
 
 Write the frontmatter and section headers first — no content yet:
+
 ```markdown
 ---
 name: [name]
@@ -107,6 +114,7 @@ description: '[one sentence]'
 ```
 
 Validate the structure before filling in content:
+
 - [ ] Is the name kebab-case and matching the folder?
 - [ ] Does the description say what it does AND when to use it?
 - [ ] Are the process steps numbered and named?
@@ -114,6 +122,7 @@ Validate the structure before filling in content:
 ### Step 3 — Write the Overview
 
 Two parts:
+
 1. **What it does** — one paragraph, plain prose
 2. **Core insight** — the non-obvious principle behind why the steps are in this order
 
@@ -136,6 +145,7 @@ The "When NOT to use" section is as important as the triggers. It prevents misap
 ### Step 5 — Write the Steps
 
 For each step:
+
 - Name it with a verb: "Step 1 — Reproduce" not "Step 1 — Reproduction"
 - Explain what you're doing AND why
 - Include the output/deliverable: "Output: a command that reliably fails"
@@ -143,6 +153,7 @@ For each step:
 - Add a code example if commands or templates are involved
 
 **Anti-patterns in step writing:**
+
 - "Do X" with no explanation of when X is done
 - Generic advice ("be thorough") without specific actions
 - Steps that assume implicit knowledge not in the skill
@@ -155,6 +166,7 @@ The done checklist — the conditions that confirm the skill was applied correct
 ## Verification
 
 The session is complete when:
+
 - [ ] [Observable outcome 1]
 - [ ] [Observable outcome 2]
 - [ ] [Artifact exists: test, ADR, issue, PR, etc.]
@@ -199,6 +211,7 @@ After writing the skill, update the toolkit's documentation:
 **templates/copilot-instructions.md** — update skill count
 
 Skill categories:
+
 - Development Lifecycle (explore, outline, develop, check, polish, launch)
 - Engineering Discipline (tdd, diagnose, code-review, etc.)
 - Architecture (api-design, database-schema, improve-codebase-architecture, etc.)
@@ -210,6 +223,7 @@ Skill categories:
 ## Description Writing Rules
 
 The description field appears in slash command menus. It must:
+
 - Fit in ~120 characters
 - Say what it does: "Six-phase debugging loop" not "A skill for debugging"
 - Say when to use it: "Use when tests fail" not "Use for debugging"
@@ -218,11 +232,13 @@ The description field appears in slash command menus. It must:
 **Formula:** `[Core action/output]. Use when [trigger condition].`
 
 **Good:**
+
 ```
 'Six-phase debugging loop: build feedback loop → reproduce → hypothesise → instrument → fix → cleanup. Use when tests fail or a bug is reported.'
 ```
 
 **Bad:**
+
 ```
 'This skill helps you debug issues in your codebase.'
 ```
@@ -230,6 +246,7 @@ The description field appears in slash command menus. It must:
 ## Verification
 
 The skill is ready when:
+
 - [ ] SKILL.md passes the full review checklist (Step 7)
 - [ ] Someone unfamiliar with the topic could follow the steps independently
 - [ ] The trigger and done conditions are unambiguous

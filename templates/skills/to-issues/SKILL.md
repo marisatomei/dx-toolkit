@@ -26,6 +26,7 @@ Every issue gets one of two labels:
 
 **`🤖 ready-for-agent` (AFK — Away From Keyboard)**
 AI agent can implement this without further guidance. Criteria:
+
 - Well-defined acceptance criteria
 - No ambiguous design decisions
 - No external dependencies requiring human coordination
@@ -33,6 +34,7 @@ AI agent can implement this without further guidance. Criteria:
 
 **`👤 ready-for-human` (HITL — Human in the Loop)**
 Requires human involvement. Criteria:
+
 - Design decision with multiple valid approaches
 - Requires access to external system (credentials, staging, vendor)
 - Involves UI/UX judgment calls
@@ -43,6 +45,7 @@ Requires human involvement. Criteria:
 ### Step 1 — Read the Plan
 
 Read the plan, PRD, or spec to be broken down. Identify:
+
 - The end-to-end user flows being built
 - The key integration points (database, APIs, UI, external services)
 - Any explicit constraints or non-functional requirements
@@ -50,11 +53,13 @@ Read the plan, PRD, or spec to be broken down. Identify:
 ### Step 2 — Draft Vertical Slices
 
 List the slices. Each slice should:
+
 - Be independently mergeable
 - Have at least one observable output (test, endpoint, UI element, job run)
 - Not depend on another incomplete slice to demonstrate its behavior
 
 **Slice ordering rules:**
+
 1. Tracer bullet first — the thinnest path through the full system
 2. Data model / schema before business logic that depends on it
 3. Core behavior before edge cases
@@ -62,6 +67,7 @@ List the slices. Each slice should:
 5. Internal before external (internal APIs before webhooks)
 
 **Anti-patterns to avoid:**
+
 - "All models" as a single issue (horizontal slice)
 - "All API endpoints" as a single issue
 - "Write tests" as a separate issue (tests belong in the implementation issue)
@@ -73,28 +79,35 @@ For each slice, create a GitHub issue using this template:
 
 **Issue title format:** `[verb] [noun]: [brief description]`
 Examples:
+
 - `feat: add user registration endpoint`
 - `fix: cart total incorrect with discount codes`
 - `refactor: extract payment processing into PaymentService`
 
 **Issue body template:**
+
 ```markdown
 ## Summary
+
 [1-2 sentences: what this issue delivers]
 
 ## Acceptance Criteria
+
 - [ ] [Observable behavior 1]
 - [ ] [Observable behavior 2]
 - [ ] Tests added or updated to cover the above
 - [ ] No regressions in existing tests
 
 ## Context
+
 [Any relevant background, links to related issues, or architectural decisions]
 
 ## Out of Scope
+
 [Explicitly what this issue does NOT include — prevents scope creep]
 
 ## Dependencies
+
 Blocked by: #[issue number] (if applicable)
 Blocks: #[issue number] (if applicable)
 ```
@@ -118,10 +131,12 @@ done < titles.txt
 ### Step 5 — Set Dependencies
 
 For issues that must complete before others:
+
 - Add "Blocked by: #N" in the issue body
 - Optionally use a project board to visualize the dependency graph
 
 If your project uses GitHub Projects:
+
 ```bash
 gh project item-add [project-number] --owner [org] --url [issue-url]
 ```
@@ -129,6 +144,7 @@ gh project item-add [project-number] --owner [org] --url [issue-url]
 ### Step 6 — Review the Set
 
 Before closing this session, verify the full issue set:
+
 - [ ] First issue is a tracer bullet (thin end-to-end path)
 - [ ] No horizontal slices (no "all models", "all endpoints" etc.)
 - [ ] Every issue has at least 2 acceptance criteria
@@ -142,12 +158,14 @@ Before closing this session, verify the full issue set:
 **Plan:** "Add user authentication to the API"
 
 **Horizontal (wrong):**
+
 - Write all user models
 - Write all auth endpoints
 - Write all auth tests
 - Hook up JWT
 
 **Vertical (correct):**
+
 1. 🤖 `feat: register user with email+password (tracer bullet)` — POST /auth/register returns JWT, one passing integration test
 2. 🤖 `feat: login with email+password` — POST /auth/login returns JWT
 3. 🤖 `feat: protect routes with JWT middleware` — 401 on missing/invalid token
@@ -160,6 +178,7 @@ Each issue builds on the last, and each is deployable independently.
 ## Verification
 
 The session is complete when:
+
 - [ ] All issues created in GitHub
 - [ ] Labels applied (`ready-for-agent` or `ready-for-human`)
 - [ ] Dependencies set

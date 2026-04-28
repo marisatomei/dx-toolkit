@@ -55,6 +55,7 @@ Dependents (what depends on this area):
 ```
 
 **Rules for the module map:**
+
 - One line per module — no deep dives
 - Use CONTEXT.md vocabulary for names and descriptions
 - Mark the current location with `← you are here`
@@ -75,10 +76,12 @@ Example: "Adding email validation to the user registration flow in auth/registra
 One question: **"What else could be affected by this change?"**
 
 Scan the dependents list. For each, ask:
+
 - Does my change affect the contract this module relies on?
 - Does my change change timing, error behavior, or data shape?
 
 List anything that needs a second look:
+
 ```
 RISK CHECK:
   [module] — [why it might be affected]
@@ -112,6 +115,7 @@ Total: under 3 minutes.
 ## Verification
 
 A successful zoom-out produces:
+
 - [ ] Module map with current location marked
 - [ ] Dependencies and dependents listed
 - [ ] Current task placed in the context of the map

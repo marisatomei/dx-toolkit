@@ -50,6 +50,7 @@ wontfix          #FFFFFF   Valid but out of scope or won't be addressed
 ```
 
 **Priority labels (add all five):**
+
 ```
 priority: critical   #B60205   Must fix immediately
 priority: high       #D93F0B   Fix in current sprint
@@ -59,6 +60,7 @@ priority: backlog    #FEF2C0   Accepted but not scheduled
 ```
 
 **Setup command:**
+
 ```bash
 gh label create "needs-triage"    --color "FBCA04" --description "Not yet reviewed"
 gh label create "needs-info"      --color "D4C5F9" --description "Waiting on reporter"
@@ -79,10 +81,12 @@ For each issue, work through these questions in order. Stop at the first decisio
 ### Question 1 — Is it reproducible / well-defined?
 
 **Bug reports:**
+
 - Does it have: steps to reproduce, expected behavior, actual behavior, environment info?
 - Can you reproduce it with those steps?
 
 **Feature requests:**
+
 - Is the desired behavior clear enough to write acceptance criteria?
 - Is the scope bounded?
 
@@ -103,6 +107,7 @@ Does this align with the project's goals and roadmap?
 Would a capable coding agent (with full repo access) be able to solve this correctly and safely without additional guidance?
 
 Criteria for `ready-for-agent`:
+
 - The fix/feature is well-scoped (single responsibility)
 - No ambiguous design decisions need to be made
 - No access to external systems, credentials, or human stakeholders required
@@ -117,17 +122,18 @@ Criteria for `ready-for-agent`:
 
 After routing to `ready-for-agent` or `ready-for-human`, assign one priority label:
 
-| Priority | Criteria |
-|---|---|
+| Priority             | Criteria                                                |
+| -------------------- | ------------------------------------------------------- |
 | `priority: critical` | Production is broken, data loss, security vulnerability |
-| `priority: high` | Core feature broken, significant user impact |
-| `priority: medium` | Non-critical bug, quality-of-life improvement |
-| `priority: low` | Minor issue, cosmetic, nice-to-have |
-| `priority: backlog` | Valid but no immediate impact, schedule later |
+| `priority: high`     | Core feature broken, significant user impact            |
+| `priority: medium`   | Non-critical bug, quality-of-life improvement           |
+| `priority: low`      | Minor issue, cosmetic, nice-to-have                     |
+| `priority: backlog`  | Valid but no immediate impact, schedule later           |
 
 ## Response Templates
 
 ### needs-info response
+
 ```
 Thanks for the report! To investigate, I need a bit more information:
 
@@ -141,6 +147,7 @@ I'll re-triage once this is available.
 ```
 
 ### wontfix response
+
 ```
 Thanks for taking the time to file this.
 
@@ -150,6 +157,7 @@ This isn't a reflection on the quality of the report — it's just outside the c
 ```
 
 ### ready-for-agent comment
+
 ```
 This issue is well-specified and safe for autonomous implementation. Labeling as `ready-for-agent`.
 
@@ -164,6 +172,7 @@ Acceptance criteria:
 Once labels are in place, the `smart-labeler` and `issue-quality-enhancer` workflows can assist with initial triage. This skill handles the judgment calls those workflows can't make.
 
 **Recommended workflow:**
+
 1. `smart-labeler` applies `needs-triage` automatically on new issues
 2. Human runs this skill weekly to process the `needs-triage` queue
 3. AI agents pick up `ready-for-agent` issues autonomously
@@ -171,6 +180,7 @@ Once labels are in place, the `smart-labeler` and `issue-quality-enhancer` workf
 ## Verification
 
 A triage session is complete when:
+
 - [ ] No issues remain labeled `needs-triage`
 - [ ] Every `ready-for-agent` issue has acceptance criteria in the body or a comment
 - [ ] Every `needs-info` issue has a comment explaining what's missing

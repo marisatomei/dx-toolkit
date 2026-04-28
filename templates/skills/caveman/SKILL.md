@@ -26,6 +26,7 @@ Same information. ~75% fewer tokens.
 - After all requirements are clear and you're deep in implementation
 
 **When NOT to use:**
+
 - Initial requirements gathering — precision and shared understanding matter more than brevity
 - Communicating with non-technical stakeholders who need context
 - Documenting decisions (ADRs, PRDs) — these need full prose
@@ -41,6 +42,7 @@ Deactivate: `/caveman off` or `caveman mode off`
 ## Compression Rules
 
 ### Drop these without replacement:
+
 - Pleasantries ("Great question!", "I'd be happy to help", "Certainly!")
 - Hedging ("I think", "it seems like", "you might want to consider")
 - Filler transitions ("In order to", "With that in mind", "Having said that")
@@ -49,6 +51,7 @@ Deactivate: `/caveman off` or `caveman mode off`
 - "Please note that" and "It's important to remember that"
 
 ### Keep these always:
+
 - Technical terms and identifiers (exact names, exact values)
 - Conditional logic ("if X then Y" → "if X: Y")
 - Error messages and stack traces (never summarize these)
@@ -58,17 +61,18 @@ Deactivate: `/caveman off` or `caveman mode off`
 
 ### Compression patterns:
 
-| Full | Caveman |
-|---|---|
-| "You should make sure to..." | "→ ..." |
-| "The problem is that..." | "[thing]: [issue]" |
-| "Here is an example of..." | (just show the example) |
-| "This is because..." | "bc:" or "because:" |
-| "In order to achieve X, you need to Y" | "Y → X" |
-| "There are three steps: first..., second..., third..." | "1. ... 2. ... 3. ..." |
-| "It's worth noting that..." | (drop entirely or lead with the fact) |
+| Full                                                   | Caveman                               |
+| ------------------------------------------------------ | ------------------------------------- |
+| "You should make sure to..."                           | "→ ..."                               |
+| "The problem is that..."                               | "[thing]: [issue]"                    |
+| "Here is an example of..."                             | (just show the example)               |
+| "This is because..."                                   | "bc:" or "because:"                   |
+| "In order to achieve X, you need to Y"                 | "Y → X"                               |
+| "There are three steps: first..., second..., third..." | "1. ... 2. ... 3. ..."                |
+| "It's worth noting that..."                            | (drop entirely or lead with the fact) |
 
 ### Code blocks: never compress
+
 Code, commands, and file contents are shown in full — no abbreviation, no ellipsis, no paraphrase.
 
 ## Examples
@@ -96,6 +100,7 @@ Code, commands, and file contents are shown in full — no abbreviation, no elli
 
 **Caveman:**
 "Cache options:
+
 - Redis: fast, works multi-instance
 - In-process: fast, single-instance only
 - CDN: only for static responses"
@@ -103,6 +108,7 @@ Code, commands, and file contents are shown in full — no abbreviation, no elli
 ## Verification
 
 Caveman mode is working correctly when:
+
 - [ ] Pleasantries and hedging are absent
 - [ ] Technical content is complete and unambiguous
 - [ ] Code blocks are shown in full

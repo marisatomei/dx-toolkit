@@ -7,7 +7,7 @@ description: 'Find and fix shallow modules — code that is complex to use but s
 
 ## Overview
 
-Good architecture hides complexity. The **deep module principle** (from John Ousterhout's *A Philosophy of Software Design*): the best modules have a **simple interface** and **complex implementation**. Shallow modules are the opposite: complex to use, trivial inside.
+Good architecture hides complexity. The **deep module principle** (from John Ousterhout's _A Philosophy of Software Design_): the best modules have a **simple interface** and **complex implementation**. Shallow modules are the opposite: complex to use, trivial inside.
 
 Shallow modules create cognitive load everywhere they're used. Deep modules contain complexity in one place and let callers ignore it.
 
@@ -60,7 +60,7 @@ Look for these patterns as you explore the codebase:
 
 Before exploring code, read `CONTEXT.md` (if it exists) to understand the domain vocabulary.
 
-Build a list of the 10-15 most important domain concepts from CONTEXT.md. These are the concepts the codebase *should* have explicit modules for.
+Build a list of the 10-15 most important domain concepts from CONTEXT.md. These are the concepts the codebase _should_ have explicit modules for.
 
 **If CONTEXT.md doesn't exist:** Run `grill-with-docs` first to establish vocabulary, then return.
 
@@ -88,16 +88,19 @@ DEPTH SCORE = implementation / interface
 For each shallow module identified:
 
 **Option A: Deepen the interface**
+
 - Can I hide parameters behind sensible defaults?
 - Can I merge methods that callers always call together into a single method?
 - Can I absorb configuration that callers always set the same way?
 
 **Option B: Deepen the implementation**
+
 - Is there shared logic in callers that belongs in this module?
 - Are there error paths callers must handle that the module could handle internally?
 - Are there validation rules that callers must know about?
 
 **Option C: Eliminate the layer**
+
 - Is this abstraction adding any value at all?
 - Can callers just use the underlying thing directly?
 - Would removing this layer reduce total lines of code and complexity?
@@ -114,7 +117,8 @@ RANK | MODULE | DEPTH SCORE | OPPORTUNITY | IMPACT
 ```
 
 For each candidate, ask:
-- What is the simplest interface this module *could* have?
+
+- What is the simplest interface this module _could_ have?
 - What callers would benefit most from the improved interface?
 - What is the migration cost?
 - Does this change affect any public API or external contract?
@@ -132,6 +136,7 @@ For each selected opportunity:
 5. Delete the old interface once all callers are migrated
 
 **Anti-patterns:**
+
 - Do not add a new deep interface alongside the old shallow one indefinitely — pick a migration date
 - Do not deepen an interface by adding magic/implicit behavior — callers must still be able to predict outcomes
 - Do not over-abstract: if the "deep" interface hides things callers legitimately need to control, you've gone too far
@@ -139,6 +144,7 @@ For each selected opportunity:
 ### Step 6 — Update CONTEXT.md
 
 After refactoring:
+
 - [ ] Update `CONTEXT.md` if module names changed
 - [ ] Add new concepts discovered during refactoring
 - [ ] Remove or update vocabulary for eliminated abstractions
@@ -153,6 +159,7 @@ After refactoring:
 ## Verification
 
 The session is complete when:
+
 - [ ] Top 3-5 deepening opportunities addressed
 - [ ] All tests pass
 - [ ] Caller code is simpler (fewer lines, fewer parameters, fewer conditions)

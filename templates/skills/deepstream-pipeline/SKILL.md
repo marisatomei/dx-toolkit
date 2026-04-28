@@ -29,12 +29,13 @@ Answer these before writing any code:
 
 ### 2. Choose the API
 
-| API | When to use |
-|---|---|
-| **Flow API** (declarative) | Static pipeline, configuration-driven, minimal Python boilerplate |
+| API                             | When to use                                                                          |
+| ------------------------------- | ------------------------------------------------------------------------------------ |
+| **Flow API** (declarative)      | Static pipeline, configuration-driven, minimal Python boilerplate                    |
 | **Pipeline API** (programmatic) | Dynamic element manipulation, conditional pipeline topology, tight GStreamer control |
 
 Flow API for most cases:
+
 ```python
 from pyservicemaker import Pipeline, Node, App
 
@@ -89,6 +90,7 @@ nms-iou-threshold=0.5
 ```
 
 For cascaded inference, add a second `nvinfer` element with:
+
 ```ini
 gie-unique-id=2
 operate-on-gie-id=1
@@ -110,6 +112,7 @@ display-tracking-id=1
 ```
 
 Add element after PGIE:
+
 ```python
 tracker = Node("nvtracker", "tracker", {"ll-lib-file": "...", "ll-config-file": "..."})
 pipeline.link(gie, tracker).link(tracker, ...)
@@ -151,6 +154,7 @@ pipeline.link(tracker, conv).link(conv, broker)
 ### 8. Handle headless vs display mode
 
 Always implement both modes:
+
 ```python
 headless = os.getenv("DS_HEADLESS", "1") == "1"
 

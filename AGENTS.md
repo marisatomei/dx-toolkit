@@ -20,45 +20,45 @@ This file helps AI agents understand the available agents and how to use them.
 
 ### Technology-Specialized (38+)
 
-| Agent                         | Domain                        |
-| ----------------------------- | ----------------------------- |
-| `elixir-expert`               | Elixir / OTP                  |
-| `phoenix-expert`              | Phoenix Framework             |
-| `typescript-expert`           | TypeScript                    |
-| `nextjs-expert`               | Next.js                       |
-| `react-expert`                | React                         |
-| `react-native-expert`         | React Native                  |
-| `expo-expert`                 | Expo                          |
-| `postgresql-expert`           | PostgreSQL                    |
-| `supabase-expert`             | Supabase                      |
-| `docker-expert`               | Docker / containers           |
-| `wordpress-expert`            | WordPress                     |
-| `design-systems-expert`       | Design systems / UI libraries |
-| `frontend-expert`             | Frontend architecture         |
-| `backend-expert`              | Backend architecture          |
-| `web-development-expert`      | Full-stack web                |
-| `conventional-commits-expert` | Commit message standards      |
-| `tdd-expert`                  | Test-driven development       |
-| `bdd-expert`                  | Behavior-driven development   |
-| `payments-expert`             | Payment integrations          |
-| `python-expert`               | Python                        |
-| `go-expert`                   | Go                            |
-| `rust-expert`                 | Rust                          |
-| `swift-expert`                | Swift / iOS                   |
-| `kotlin-expert`               | Kotlin / Android              |
-| `flutter-expert`              | Flutter / Dart                |
-| `rails-expert`                | Ruby on Rails                 |
-| `vue-expert`                  | Vue.js / Nuxt                 |
-| `angular-expert`              | Angular                       |
-| `svelte-expert`               | Svelte / SvelteKit            |
-| `graphql-expert`              | GraphQL                       |
-| `terraform-expert`            | Terraform / IaC               |
-| `csharp-expert`               | C# / .NET                     |
-| `aspnetcore-expert`           | ASP.NET Core backend          |
-| `blazor-expert`               | Blazor frontend (Server/WASM) |
-| `deepstream-expert`           | NVIDIA DeepStream SDK         |
-| `deepstream-plugin-expert`    | DeepStream C++ plugins        |
-| `deepstream-inference-expert` | TensorRT / nvinfer inference  |
+| Agent                         | Domain                           |
+| ----------------------------- | -------------------------------- |
+| `elixir-expert`               | Elixir / OTP                     |
+| `phoenix-expert`              | Phoenix Framework                |
+| `typescript-expert`           | TypeScript                       |
+| `nextjs-expert`               | Next.js                          |
+| `react-expert`                | React                            |
+| `react-native-expert`         | React Native                     |
+| `expo-expert`                 | Expo                             |
+| `postgresql-expert`           | PostgreSQL                       |
+| `supabase-expert`             | Supabase                         |
+| `docker-expert`               | Docker / containers              |
+| `wordpress-expert`            | WordPress                        |
+| `design-systems-expert`       | Design systems / UI libraries    |
+| `frontend-expert`             | Frontend architecture            |
+| `backend-expert`              | Backend architecture             |
+| `web-development-expert`      | Full-stack web                   |
+| `conventional-commits-expert` | Commit message standards         |
+| `tdd-expert`                  | Test-driven development          |
+| `bdd-expert`                  | Behavior-driven development      |
+| `payments-expert`             | Payment integrations             |
+| `python-expert`               | Python                           |
+| `go-expert`                   | Go                               |
+| `rust-expert`                 | Rust                             |
+| `swift-expert`                | Swift / iOS                      |
+| `kotlin-expert`               | Kotlin / Android                 |
+| `flutter-expert`              | Flutter / Dart                   |
+| `rails-expert`                | Ruby on Rails                    |
+| `vue-expert`                  | Vue.js / Nuxt                    |
+| `angular-expert`              | Angular                          |
+| `svelte-expert`               | Svelte / SvelteKit               |
+| `graphql-expert`              | GraphQL                          |
+| `terraform-expert`            | Terraform / IaC                  |
+| `csharp-expert`               | C# / .NET                        |
+| `aspnetcore-expert`           | ASP.NET Core backend             |
+| `blazor-expert`               | Blazor frontend (Server/WASM)    |
+| `deepstream-expert`           | NVIDIA DeepStream SDK            |
+| `deepstream-plugin-expert`    | DeepStream C++ plugins           |
+| `deepstream-inference-expert` | TensorRT / nvinfer inference     |
 | `tao-toolkit-expert`          | NVIDIA TAO Toolkit / fine-tuning |
 
 ### Content-Specialized (2)
