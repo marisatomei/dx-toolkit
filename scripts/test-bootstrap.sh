@@ -335,7 +335,7 @@ teardown_tmpdir
 # ── Test 14: Each project type runs without error ─────────────
 echo -e "\n${BOLD}Test: All project types run without error${NC}"
 
-for i in $(seq 1 18); do
+for i in $(seq 1 22); do
   setup_tmpdir
   mkdir -p "$TMPDIR_TEST/proj-$i"
   label="project type $i"
@@ -365,8 +365,8 @@ echo -e "\n${BOLD}Test: --help${NC}"
 
 help_output=$("$BOOTSTRAP" --help 2>&1)
 assert_contains "$help_output" "Usage:" "--help shows Usage"
-assert_contains "$help_output" "Agents (45+)" "--help shows agent count"
-assert_contains "$help_output" "Workflows (25)" "--help shows workflow count"
+assert_contains "$help_output" "Agents (52+)" "--help shows agent count"
+assert_contains "$help_output" "Workflows (27)" "--help shows workflow count"
 
 # ── Test 17: No arguments shows usage ─────────────────────────
 echo -e "\n${BOLD}Test: No arguments${NC}"

@@ -27,22 +27,26 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - name: 🔐 Verify author is repo owner or collaborator
+      - name: 🔐 Verify author is a collaborator with write access
         id: author_check
         env:
-          REPO_OWNER: ${{ github.repository_owner }}
+          GH_TOKEN: ${{ secrets.COPILOT_PAT || secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
         run: |
           author="$ISSUE_AUTHOR"
-
           allowed="false"
-          if [ "$author" = "$REPO_OWNER" ]; then
+
+          perm=$(gh api "repos/$REPO/collaborators/$author/permission" \
+            --jq '.permission' 2>/dev/null || echo "none")
+
+          if [[ "$perm" == "admin" || "$perm" == "write" || "$perm" == "triage" ]]; then
             allowed="true"
           fi
 
           echo "allowed=$allowed" >> "$GITHUB_OUTPUT"
           if [ "$allowed" != "true" ]; then
-            echo "⏭️ Skipping: author '$author' is not repository owner '$REPO_OWNER'."
+            echo "⏭️ Skipping: '$author' does not have write/triage/admin access (permission: $perm)."
           fi
 
       - name: 📥 Checkout repository

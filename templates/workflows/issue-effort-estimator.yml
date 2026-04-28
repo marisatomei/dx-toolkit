@@ -1,0 +1,168 @@
+# ──────────────────────────────────────────────────────────────
+# 📐 Issue Effort Estimator — Standalone Workflow
+# ──────────────────────────────────────────────────────────────
+# AI-powered effort estimation that assigns both a T-shirt size
+# label and a story-points label to every new issue. Explains
+# the reasoning in a comment so the team can calibrate.
+#
+# T-shirt sizes: XS / S / M / L / XL
+# Story points:  1 / 2 / 3 / 5 / 8 / 13 / 21  (Fibonacci)
+#
+# Triggers:
+#   - Automatically when a new issue is opened
+#   - Manually via workflow_dispatch for re-estimation
+# ──────────────────────────────────────────────────────────────
+
+name: "📐 Issue Effort Estimator"
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Issue number to estimate (e.g. 42)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: effort-estimator-${{ github.event.issue.number || inputs.issue_number }}
+  cancel-in-progress: true
+
+jobs:
+  estimate-effort:
+    name: "📐 Estimate Issue Effort"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Install GitHub Copilot CLI
+        run: |
+          curl -fsSL https://gh.io/copilot-install | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.local/bin:$PATH"
+
+      - name: "📐 Estimate effort and assign labels"
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_PAT || secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+          MODEL: "claude-sonnet-4"
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+
+          copilot -p "
+          You are an expert Effort Estimation Agent for the repository '${{ github.repository }}'.
+          Your job is to analyze a GitHub issue and assign an accurate effort estimate using
+          two complementary scales: T-shirt size and Fibonacci story points.
+
+          ISSUE TO ESTIMATE: #$ISSUE_NUMBER
+
+          Follow these steps IN ORDER:
+
+          ──────────────────────────────────────────────
+          STEP 1 — READ THE ISSUE
+          ──────────────────────────────────────────────
+          Use the GitHub MCP Server to read the full details of issue #$ISSUE_NUMBER:
+          - Title, body, existing labels, assignees, milestone.
+
+          ──────────────────────────────────────────────
+          STEP 2 — UNDERSTAND THE PROJECT
+          ──────────────────────────────────────────────
+          - Read the repository README to understand the tech stack and architecture.
+          - Scan the source code structure to understand complexity and conventions.
+          - Use the GitHub MCP Server to list the last 10 recently closed issues with their
+            size/points labels (if any) to calibrate your estimates against past work.
+
+          ──────────────────────────────────────────────
+          STEP 3 — ANALYZE COMPLEXITY FACTORS
+          ──────────────────────────────────────────────
+          Score the issue across these dimensions (Low / Medium / High):
+
+          a) SCOPE — How many files, modules, or systems are affected?
+          b) CLARITY — Is the requirement well-defined or ambiguous?
+          c) DEPENDENCIES — Does it require changes to external services, APIs, or schemas?
+          d) RISK — Is this in a sensitive area (auth, payments, data migrations)?
+          e) TESTING — How much test coverage will be needed?
+          f) DESIGN — Does it require UI/UX design work or architectural decisions?
+
+          ──────────────────────────────────────────────
+          STEP 4 — ASSIGN T-SHIRT SIZE AND STORY POINTS
+          ──────────────────────────────────────────────
+          Based on the complexity analysis, assign:
+
+          T-SHIRT SIZE:
+          - 📐 size/XS — Trivial change (typo fix, 1-line config tweak). 1-2 pts.
+          - 📐 size/S  — Small, self-contained change. Clear scope. 2-3 pts.
+          - 📐 size/M  — Moderate work. Some cross-cutting concerns. 5 pts.
+          - 📐 size/L  — Large feature or significant refactor. 8-13 pts.
+          - 📐 size/XL — Epic. Should be broken down. 13-21 pts.
+
+          FIBONACCI STORY POINTS (pick one: 1, 2, 3, 5, 8, 13, 21):
+          - 1: Trivial — minutes of work
+          - 2: Very small — under an hour
+          - 3: Small — a few hours
+          - 5: Medium — about a day
+          - 8: Large — 2-3 days
+          - 13: Very large — most of a sprint
+          - 21: Epic — must be broken down first
+
+          ──────────────────────────────────────────────
+          STEP 5 — MANAGE LABELS
+          ──────────────────────────────────────────────
+          Use the GitHub MCP Server to list all existing labels.
+
+          For EACH of the following labels that does not yet exist, CREATE it:
+          Size labels (color: 1d76db, blue):
+            '📐 size/XS', '📐 size/S', '📐 size/M', '📐 size/L', '📐 size/XL'
+          Points labels (color: 0075ca, darker blue):
+            '🎯 points/1', '🎯 points/2', '🎯 points/3', '🎯 points/5',
+            '🎯 points/8', '🎯 points/13', '🎯 points/21'
+
+          Then:
+          - Remove any existing '📐 size/*' and '🎯 points/*' labels from issue #$ISSUE_NUMBER.
+          - Add the new size label and points label you selected.
+
+          ──────────────────────────────────────────────
+          STEP 6 — POST ESTIMATION COMMENT
+          ──────────────────────────────────────────────
+          Use the GitHub MCP Server to add a comment on issue #$ISSUE_NUMBER:
+
+          > 📐 **Effort Estimate**
+          >
+          > | Dimension | Rating | Notes |
+          > |-----------|--------|-------|
+          > | Scope | Low/Med/High | (brief note) |
+          > | Clarity | Low/Med/High | (brief note) |
+          > | Dependencies | Low/Med/High | (brief note) |
+          > | Risk | Low/Med/High | (brief note) |
+          > | Testing | Low/Med/High | (brief note) |
+          >
+          > **T-shirt size:** 📐 size/[XS|S|M|L|XL]
+          > **Story points:** 🎯 [1|2|3|5|8|13|21]
+          >
+          > **Reasoning:** (2-3 sentences explaining what drives the estimate)
+          >
+          > (If XL, add a breakdown suggestion:)
+          > **Suggested breakdown:**
+          > - Sub-task 1: ...
+          > - Sub-task 2: ...
+          >
+          > ---
+          > 🤖 *Estimated by Copilot Effort Estimator — adjust labels if the team disagrees*
+
+          IMPORTANT GUIDELINES:
+          - Be consistent with recent estimates in the repo — calibrate to past issues.
+          - When in doubt, size UP not down.
+          - If the issue is too vague to estimate, assign 📐 size/M and note in the comment
+            that more detail is needed before a reliable estimate can be made.
+          - Never block or close issues — only add labels and a comment.
+          " --allow-all-tools --model "$MODEL"
+
+          echo "✅ Effort estimation completed for issue #$ISSUE_NUMBER"

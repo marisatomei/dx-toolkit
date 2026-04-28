@@ -18,21 +18,21 @@ EXPLORE → OUTLINE → DEVELOP → CHECK → POLISH → LAUNCH
 
 | Phase   | Slash Command | Skills                                                                                                                                                 |
 | ------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| EXPLORE | `/explore`    | idea-refine, spec-driven-development, codebase-onboarding                                                                                              |
-| OUTLINE | `/outline`    | planning-and-task-breakdown, issue-to-plan                                                                                                             |
-| DEVELOP | `/develop`    | incremental-implementation, context-engineering, api-design, database-schema                                                                           |
-| CHECK   | `/check`      | debugging-and-error-recovery, testing-strategy                                                                                                         |
-| POLISH  | `/polish`     | code-simplification, performance-optimization, code-review, security-audit, accessibility-audit, refactoring-catalog                                   |
+| EXPLORE | `/explore`    | idea-refine, spec-driven-development, codebase-onboarding, grill-me, grill-with-docs, zoom-out                                                        |
+| OUTLINE | `/outline`    | planning-and-task-breakdown, issue-to-plan, to-prd, to-issues                                                                                         |
+| DEVELOP | `/develop`    | incremental-implementation, context-engineering, api-design, database-schema, tdd                                                                     |
+| CHECK   | `/check`      | debugging-and-error-recovery, testing-strategy, diagnose                                                                                               |
+| POLISH  | `/polish`     | code-simplification, performance-optimization, code-review, security-audit, accessibility-audit, refactoring-catalog, improve-codebase-architecture   |
 | LAUNCH  | `/launch`     | git-workflow-and-versioning, ci-cd-and-automation, documentation-and-adrs, shipping-and-launch, deployment-checklist, pr-description, humanize-writing |
 
 ## Repository Structure
 
 ```
 templates/
-├── agents/           45+ Copilot coding agents (.agent.md)
-├── skills/           34+ multi-step skills (SKILL.md)
+├── agents/           52+ Copilot coding agents (.agent.md)
+├── skills/           47+ multi-step skills (SKILL.md)
 ├── prompts/          27+ task prompts (.prompt.md)
-├── instructions/     25+ coding rules (.instructions.md)
+├── instructions/     26+ coding rules (.instructions.md)
 ├── hooks/            10 hook configs + scripts
 ├── workflows/        25 standalone GitHub Actions
 ├── references/       10 reference checklists
@@ -43,7 +43,7 @@ templates/
 ├── workflows/        CI for this repo
 ├── copilot-instructions.md
 └── labeler.yml
-scripts/              Bootstrap installer (interactive)
+scripts/              Bootstrap installer (interactive + Windows PS1)
 docs/                 Comprehensive documentation + recipes
 examples/             Real-world copilot-instructions.md configs
 ```

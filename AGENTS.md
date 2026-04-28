@@ -18,7 +18,7 @@ This file helps AI agents understand the available agents and how to use them.
 | `performance-optimizer` | Profile and optimize slow code                   |
 | `dependency-updater`    | Update dependencies safely                       |
 
-### Technology-Specialized (31+)
+### Technology-Specialized (38+)
 
 | Agent                         | Domain                        |
 | ----------------------------- | ----------------------------- |
@@ -53,6 +53,13 @@ This file helps AI agents understand the available agents and how to use them.
 | `svelte-expert`               | Svelte / SvelteKit            |
 | `graphql-expert`              | GraphQL                       |
 | `terraform-expert`            | Terraform / IaC               |
+| `csharp-expert`               | C# / .NET                     |
+| `aspnetcore-expert`           | ASP.NET Core backend          |
+| `blazor-expert`               | Blazor frontend (Server/WASM) |
+| `deepstream-expert`           | NVIDIA DeepStream SDK         |
+| `deepstream-plugin-expert`    | DeepStream C++ plugins        |
+| `deepstream-inference-expert` | TensorRT / nvinfer inference  |
+| `tao-toolkit-expert`          | NVIDIA TAO Toolkit / fine-tuning |
 
 ### Content-Specialized (2)
 

@@ -182,14 +182,14 @@ Options:
   --help  Show this help
 
 Components:
-  Agents (45+)      Specialized AI coding agents
-  Skills (34+)      Multi-step structured workflows
+  Agents (52+)      Specialized AI coding agents
+  Skills (47+)      Multi-step structured workflows
   Prompts (27+)     One-shot task templates
-  Instructions (25+) Auto-attached coding rules
+  Instructions (26+) Auto-attached coding rules
   Hooks (10)        Commit validation, secret scanning, auto-format, guard files
   References (10)   Testing, security, performance, accessibility, mobile, API, error handling, observability, monorepo, architecture checklists
   Templates (3)     Issue forms + PR template
-  Workflows (25)    CI/CD GitHub Actions
+  Workflows (27)    CI/CD GitHub Actions
 EOF
       exit 0
       ;;
@@ -356,8 +356,12 @@ PROJECT_CHOICES=(
   "Vue / Nuxt"
   "Angular"
   "Svelte / SvelteKit"
+  "C# / ASP.NET Core (backend API)"
+  "Blazor (frontend / fullstack)"
+  "C# Full-stack (ASP.NET Core + Blazor)"
   "Full-stack (multiple technologies)"
   "Other / Generic"
+  "NVIDIA DeepStream (video analytics)"
 )
 project_idx=$(ask_choice "What type of project are you building?" "${PROJECT_CHOICES[@]}")
 
@@ -486,13 +490,33 @@ case "$project_idx" in
     AGENTS_TECH+=(svelte-expert typescript-expert frontend-expert web-development-expert conventional-commits-expert)
     INSTR_TECH+=(typescript css)
     ;;
-  16) # Full-stack
+  16) # C# / ASP.NET Core (backend API)
+    AGENTS_TECH+=(csharp-expert aspnetcore-expert backend-expert tdd-expert conventional-commits-expert)
+    INSTR_TECH+=(csharp)
+    INSTALL_POSTGRES=true
+    ;;
+  17) # Blazor (frontend / fullstack)
+    AGENTS_TECH+=(csharp-expert blazor-expert aspnetcore-expert frontend-expert tdd-expert conventional-commits-expert)
+    INSTR_TECH+=(csharp)
+    ;;
+  18) # C# Full-stack (ASP.NET Core + Blazor)
+    AGENTS_TECH+=(csharp-expert aspnetcore-expert blazor-expert backend-expert frontend-expert tdd-expert conventional-commits-expert)
+    INSTR_TECH+=(csharp)
+    INSTALL_DOCKER=true
+    INSTALL_POSTGRES=true
+    ;;
+  19) # Full-stack
     AGENTS_TECH+=(typescript-expert react-expert nextjs-expert frontend-expert backend-expert web-development-expert design-systems-expert conventional-commits-expert tdd-expert)
     INSTR_TECH+=(typescript react css)
     INSTALL_DOCKER=true
     ;;
-  17) # Generic
+  20) # Generic
     AGENTS_TECH+=(backend-expert frontend-expert web-development-expert conventional-commits-expert)
+    ;;
+  21) # NVIDIA DeepStream
+    AGENTS_TECH+=(deepstream-expert deepstream-plugin-expert deepstream-inference-expert tao-toolkit-expert backend-expert tdd-expert conventional-commits-expert)
+    INSTR_TECH+=(deepstream)
+    INSTALL_DOCKER=true
     ;;
 esac
 
@@ -555,7 +579,7 @@ echo -e "  ${BOLD}Config dir:${NC}   $CONFIG_DIR/"
 echo -e "  ${BOLD}Project:${NC}      ${PROJECT_CHOICES[$project_idx]}"
 echo -e "  ${BOLD}Agents:${NC}       ${#AGENTS_CORE[@]} core + ${#AGENTS_TECH[@]} specialized"
 echo -e "  ${BOLD}Instructions:${NC} ${#INSTR_CORE[@]} universal + ${#INSTR_TECH[@]} tech-specific"
-echo -e "  ${BOLD}Skills:${NC}       34+ (language-agnostic)"
+echo -e "  ${BOLD}Skills:${NC}       47+ (language-agnostic)"
 echo -e "  ${BOLD}Prompts:${NC}      27+ (language-agnostic)"
 
 extras_summary=""

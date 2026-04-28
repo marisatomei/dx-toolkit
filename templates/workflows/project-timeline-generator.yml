@@ -1,0 +1,253 @@
+# ──────────────────────────────────────────────────────────────
+# 📅 Project Timeline Generator — Standalone Workflow
+# ──────────────────────────────────────────────────────────────
+# Reads all open issues with effort labels (📐 size/* or
+# 🎯 points/*), calculates estimated delivery dates based on
+# team velocity, and populates a GitHub Project (v2) with
+# start and target dates so the Roadmap view renders a live
+# Gantt timeline.
+#
+# Prerequisites:
+#   - Run the Issue Effort Estimator workflow first so issues
+#     have 📐 size/* or 🎯 points/* labels.
+#   - Store a PAT with the 'project' scope as COPILOT_PAT.
+#     (GITHUB_TOKEN does not have project write access.)
+#
+# This workflow is MANUAL ONLY — never runs automatically.
+# ──────────────────────────────────────────────────────────────
+
+name: "📅 Project Timeline Generator"
+
+on:
+  workflow_dispatch:
+    inputs:
+      sprint_start_date:
+        description: "Start date for sprint 1 (YYYY-MM-DD). Leave blank to use today."
+        required: false
+        default: ""
+        type: string
+      team_size:
+        description: "Number of developers working on these issues"
+        required: false
+        default: "2"
+        type: string
+      weekly_velocity:
+        description: "Story points each developer completes per week"
+        required: false
+        default: "8"
+        type: string
+      milestone:
+        description: "Filter to a specific milestone name (leave blank for all open issues)"
+        required: false
+        default: ""
+        type: string
+      project_number:
+        description: "Existing GitHub Project (v2) number to update. Leave blank to create a new one."
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: project-timeline-generator
+  cancel-in-progress: false
+
+jobs:
+  generate-timeline:
+    name: "📅 Generate Project Timeline"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Install GitHub Copilot CLI
+        run: |
+          curl -fsSL https://gh.io/copilot-install | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.local/bin:$PATH"
+
+      - name: "📅 Calculate timeline and populate GitHub Project"
+        env:
+          GH_TOKEN: ${{ secrets.COPILOT_PAT || secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SPRINT_START: ${{ inputs.sprint_start_date }}
+          TEAM_SIZE: ${{ inputs.team_size }}
+          WEEKLY_VELOCITY: ${{ inputs.weekly_velocity }}
+          MILESTONE_FILTER: ${{ inputs.milestone }}
+          PROJECT_NUMBER: ${{ inputs.project_number }}
+          MODEL: "claude-sonnet-4"
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+
+          copilot -p "
+          You are a Project Timeline Generator for the repository '$REPO'.
+          Your job is to read all sized issues, calculate estimated delivery dates based
+          on team capacity, and populate a GitHub Project (v2) with those dates so the
+          built-in Roadmap view becomes a live Gantt chart for the team.
+
+          CONFIGURATION:
+          - Sprint start date: '$SPRINT_START' (use today's date if blank)
+          - Team size: $TEAM_SIZE developers
+          - Weekly velocity per developer: $WEEKLY_VELOCITY story points
+          - Total weekly team velocity: $TEAM_SIZE * $WEEKLY_VELOCITY points/week
+          - Milestone filter: '$MILESTONE_FILTER' (empty = all open issues)
+          - GitHub Project number: '$PROJECT_NUMBER' (empty = create a new project)
+
+          Follow these steps IN ORDER:
+
+          ──────────────────────────────────────────────
+          STEP 1 — RESOLVE START DATE
+          ──────────────────────────────────────────────
+          If sprint start date is empty or blank, use today's date (ISO 8601: YYYY-MM-DD).
+          Store this as the baseline start date for all scheduling.
+
+          ──────────────────────────────────────────────
+          STEP 2 — FETCH ALL SIZED ISSUES
+          ──────────────────────────────────────────────
+          Use the GitHub MCP Server to list all OPEN issues in '$REPO'.
+          Filter to only issues that have at least one of:
+          - A label matching '📐 size/*'
+          - A label matching '🎯 points/*'
+
+          If the milestone filter '$MILESTONE_FILTER' is not empty, further filter to
+          only issues belonging to that milestone.
+
+          For each issue, extract:
+          - Issue number and title
+          - Story points from '🎯 points/*' label (prefer this over size labels)
+          - If no points label, infer from size label: XS=1, S=2, M=5, L=8, XL=13
+          - Milestone name (or 'Backlog' if none)
+          - Priority label if present (e.g., P0/critical, P1/high, P2/medium, P3/low)
+          - Current assignees
+
+          If NO issues have size or points labels, stop and post a comment on the
+          workflow summary explaining that the Issue Effort Estimator must be run first.
+
+          ──────────────────────────────────────────────
+          STEP 3 — SORT AND GROUP ISSUES
+          ──────────────────────────────────────────────
+          Sort issues using this priority order:
+          1. By milestone (earlier milestones first; 'Backlog' last)
+          2. Within milestone: by priority label (P0/critical > P1/high > P2/medium > P3/low > unlabeled)
+          3. Within same priority: by issue number ascending (oldest first)
+
+          Group them into sections for scheduling.
+
+          ──────────────────────────────────────────────
+          STEP 4 — CALCULATE DELIVERY DATES
+          ──────────────────────────────────────────────
+          Using the total team velocity ($TEAM_SIZE * $WEEKLY_VELOCITY points/week):
+
+          Process issues one by one in sorted order:
+          - Assign a START DATE = the day the previous issue's work ends (rolling schedule)
+          - Assign a TARGET DATE = START DATE + ceil(points / daily_velocity) working days
+            where daily_velocity = total_weekly_velocity / 5 (5-day work weeks)
+          - Skip weekends when calculating working days
+          - Round up partial days
+
+          Build a complete schedule table:
+          | Issue # | Title | Points | Start Date | Target Date | Duration (days) | Milestone |
+
+          ──────────────────────────────────────────────
+          STEP 5 — FIND OR CREATE GITHUB PROJECT
+          ──────────────────────────────────────────────
+          Use the GitHub MCP Server (GraphQL API) to:
+
+          If '$PROJECT_NUMBER' is not empty:
+          - Find the existing project with that number in the repository or organization.
+          - Use it as the target project.
+
+          If '$PROJECT_NUMBER' is empty:
+          - Create a new GitHub Project (v2) titled:
+            '📅 Project Roadmap — generated [today's date]'
+          - Set its visibility to match the repository (public/private).
+
+          Store the project node ID for subsequent steps.
+
+          ──────────────────────────────────────────────
+          STEP 6 — ENSURE DATE FIELDS EXIST
+          ──────────────────────────────────────────────
+          Use the GitHub MCP Server (GraphQL API) to list the custom fields on the project.
+          Ensure these two date fields exist (create if missing):
+          - 'Start date' (type: DATE)
+          - 'Target date' (type: DATE)
+
+          Store the field node IDs.
+
+          ──────────────────────────────────────────────
+          STEP 7 — ADD ISSUES TO PROJECT WITH DATES
+          ──────────────────────────────────────────────
+          For each issue in the schedule:
+          1. Use the GitHub MCP Server (GraphQL) to add the issue to the project.
+             Get the project item node ID.
+          2. Set the 'Start date' field to the calculated start date.
+          3. Set the 'Target date' field to the calculated target date.
+
+          Work through all issues. Log progress for each one.
+
+          ──────────────────────────────────────────────
+          STEP 8 — POST SUMMARY
+          ──────────────────────────────────────────────
+          Use the GitHub MCP Server to create a new issue in the repository titled:
+          '📅 Project Timeline — [today's date]'
+
+          with this body:
+
+          ## 📅 Project Timeline
+
+          **Generated:** [today's date]
+          **Team:** $TEAM_SIZE developers @ $WEEKLY_VELOCITY pts/week each
+          **Total velocity:** [total] pts/week
+          **Issues scheduled:** [count]
+          **Earliest start:** [first date]
+          **Projected completion:** [last target date]
+
+          [If milestone filter was used:]
+          **Milestone:** $MILESTONE_FILTER
+
+          ---
+
+          ### 📊 Schedule
+
+          | Issue | Title | Points | Start | Target | Days |
+          |-------|-------|--------|-------|--------|------|
+          [one row per issue]
+
+          ---
+
+          ### 🗺️ View the Roadmap
+
+          Open the GitHub Project to see the live Roadmap view:
+          [project URL]
+
+          > Switch to **Roadmap** view in the project to see issues laid out on a Gantt timeline.
+          > Start date and target date fields have been set on each item.
+
+          ---
+          > 📅 *Generated by the Project Timeline Generator workflow*
+
+          FALLBACK — If GitHub Project API is unavailable:
+          If you cannot create or update a GitHub Project (e.g., token lacks 'project' scope),
+          skip steps 5-7 and create the summary issue WITHOUT the project URL section.
+          Instead, add this note:
+
+          > ⚠️ **Note:** Could not populate a GitHub Project automatically.
+          > To use the Roadmap view:
+          > 1. Create a GitHub Project manually and enable the Roadmap layout
+          > 2. Add the issues listed above and set their Start/Target date fields
+          > 3. Or re-run this workflow with a PAT that has 'project' scope stored as COPILOT_PAT
+
+          IMPORTANT GUIDELINES:
+          - Never modify issue content — only add issues to the project and set date fields.
+          - Be conservative with estimates — better to overestimate than promise too early.
+          - Log each step clearly for debugging in the workflow run summary.
+          - If a large number of issues would create an unrealistic timeline (> 6 months),
+            note this prominently in the summary and suggest the team prioritize.
+          " --allow-all-tools --model "$MODEL"
+
+          echo "✅ Project timeline generation completed"

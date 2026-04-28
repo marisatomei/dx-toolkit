@@ -12,11 +12,11 @@
 
 | Component                                | Count | What it does                                                  |
 | ---------------------------------------- | ----- | ------------------------------------------------------------- |
-| [**Agents**](docs/agents.md)             | 45+   | Specialized Copilot coding agents — assign to issues, get PRs |
+| [**Agents**](docs/agents.md)             | 52+   | Specialized Copilot coding agents — assign to issues, get PRs |
 | [**Prompts**](docs/prompts.md)           | 27+   | One-shot task templates via the `/` slash menu                |
-| [**Instructions**](docs/instructions.md) | 25+   | Auto-attached rules per file type + context modes             |
-| [**Skills**](docs/skills.md)             | 34+   | Multi-step structured workflows organized by domain           |
-| [**Workflows**](docs/workflows.md)       | 25    | AI-powered GitHub Actions (review, triage, security, docs)    |
+| [**Instructions**](docs/instructions.md) | 26+   | Auto-attached rules per file type + context modes             |
+| [**Skills**](docs/skills.md)             | 47+   | Multi-step structured workflows organized by domain           |
+| [**Workflows**](docs/workflows.md)       | 27    | AI-powered GitHub Actions (review, triage, security, docs)    |
 | [**Hooks**](docs/hooks.md)               | 10    | Quality gates — format, guard, scan, lint, track, protect     |
 | [**References**](docs/skills.md)         | 10    | Checklists for testing, security, performance, mobile, APIs   |
 | [**Templates**](docs/templates.md)       | 3     | Structured issue forms + PR template                          |
@@ -51,6 +51,12 @@ chmod +x "$TARGET/.github/hooks/scripts/"*.sh
 ./scripts/bootstrap.sh ~/Code/my-project
 ```
 
+**Windows bootstrap** (PowerShell):
+
+```powershell
+.\scripts\bootstrap.ps1 C:\Code\my-project
+```
+
 ---
 
 ## Development Lifecycle
@@ -83,7 +89,7 @@ Each command activates the relevant skills automatically. Use them individually 
 │                                                                         │
 │  Agents ──── Assign to issues → get PRs automatically                   │
 │  Prompts ─── /explore, /outline, /develop, /check, /polish, /launch     │
-│  Skills ──── 34+ structured workflows by lifecycle phase                │
+│  Skills ──── 47+ structured workflows by lifecycle phase                │
 │  Instructions ── Auto-rules + context modes for .ts, .ex, .py, .go, .rs │
 │  Hooks ───── Quality gates — format, guard, scan, protect               │
 │                                                                         │
@@ -108,11 +114,11 @@ Each command activates the relevant skills automatically. Use them individually 
 
 ---
 
-## Agents (45+)
+## Agents (52+)
 
 **9 General-Purpose**: bug-fixer, feature-implementer, refactorer, test-writer, docs-updater, docs-humanizer, security-fixer, performance-optimizer, dependency-updater
 
-**31+ Technology-Specialized**: elixir-expert, phoenix-expert, typescript-expert, nextjs-expert, postgresql-expert, supabase-expert, docker-expert, wordpress-expert, design-systems-expert, frontend-expert, backend-expert, conventional-commits-expert, web-development-expert, react-expert, react-native-expert, expo-expert, tdd-expert, bdd-expert, payments-expert, python-expert, go-expert, rust-expert, swift-expert, kotlin-expert, flutter-expert, rails-expert, vue-expert, angular-expert, svelte-expert, graphql-expert, terraform-expert
+**38+ Technology-Specialized**: elixir-expert, phoenix-expert, typescript-expert, nextjs-expert, postgresql-expert, supabase-expert, docker-expert, wordpress-expert, design-systems-expert, frontend-expert, backend-expert, conventional-commits-expert, web-development-expert, react-expert, react-native-expert, expo-expert, tdd-expert, bdd-expert, payments-expert, python-expert, go-expert, rust-expert, swift-expert, kotlin-expert, flutter-expert, rails-expert, vue-expert, angular-expert, svelte-expert, graphql-expert, terraform-expert, csharp-expert, aspnetcore-expert, blazor-expert, deepstream-expert, deepstream-plugin-expert, deepstream-inference-expert, tao-toolkit-expert
 
 **2 Content-Specialized**: seo-writer, marketing-expert
 
@@ -128,7 +134,7 @@ Each command activates the relevant skills automatically. Use them individually 
 
 ## Instructions (25+)
 
-**Auto-attached**: Elixir · TypeScript · React · CSS · Docker · Testing · Migrations · Writing Style · Python · Ruby · Go · Rust · Swift · Kotlin · Vue · GraphQL
+**Auto-attached**: Elixir · TypeScript · React · CSS · Docker · Testing · Migrations · Writing Style · Python · Ruby · Go · Rust · Swift · Kotlin · Vue · GraphQL · C#
 
 **Context modes**: Development · Review · Research · Debugging
 
@@ -136,28 +142,31 @@ Each command activates the relevant skills automatically. Use them individually 
 
 → [Full instructions guide](docs/instructions.md)
 
-## Skills (34+)
+## Skills (47+)
 
 | Category                          | Skills                                                                                                                                                                                                  |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Product & Discovery**           | idea-refine · spec-driven-development · codebase-onboarding                                                                                                                                             |
-| **Planning & Design**             | planning-and-task-breakdown · issue-to-plan · api-design · database-schema · architecture-review                                                                                                        |
-| **Development**                   | incremental-implementation · context-engineering · debugging-and-error-recovery · token-optimization                                                                                                    |
+| **Product & Discovery**           | idea-refine · spec-driven-development · codebase-onboarding · grill-me · grill-with-docs · to-prd                                                                                                      |
+| **Planning & Design**             | planning-and-task-breakdown · issue-to-plan · to-issues · api-design · database-schema · architecture-review                                                                                           |
+| **Engineering Discipline**        | tdd · diagnose · zoom-out · improve-codebase-architecture · github-triage                                                                                                                               |
+| **Development**                   | incremental-implementation · context-engineering · debugging-and-error-recovery · token-optimization · caveman                                                                                         |
 | **Code Quality**                  | code-review · code-simplification · performance-optimization · security-audit · refactoring-catalog · accessibility-audit                                                                               |
 | **Testing & Quality**             | testing-strategy · dependency-audit                                                                                                                                                                     |
-| **Documentation & Communication** | documentation-and-adrs · pr-description · humanize-writing                                                                                                                                              |
+| **Documentation & Communication** | documentation-and-adrs · pr-description · humanize-writing · write-a-skill                                                                                                                             |
 | **DevOps & Delivery**             | git-workflow-and-versioning · ci-cd-and-automation · deployment-checklist · shipping-and-launch · feature-flag-management · infrastructure-as-code · error-monitoring-setup · logging-and-observability |
 | **Mobile**                        | mobile-release · mobile-testing                                                                                                                                                                         |
 | **Architecture**                  | monorepo-setup · architecture-review                                                                                                                                                                    |
 | **Project Management**            | estimation-and-sizing · incident-response                                                                                                                                                               |
+| **AI / Video Analytics**          | deepstream-pipeline · deepstream-plugin                                                                                                                                                                 |
 
 → [Full skills guide](docs/skills.md) · [Skill anatomy](docs/skill-anatomy.md)
 
-## Workflows (25)
+## Workflows (27)
 
 | Category         | Workflows                                                                                                                                                                             |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Issue & PR**   | Smart Labeler · Issue Quality Enhancer · Duplicate Detector · First Contributor Welcome · Stale Issue Manager · Auto Assign Reviewers · PR Size Checker · Conventional Commit Checker |
+| **Planning**     | Issue Effort Estimator · Project Timeline Generator                                                                                                                                   |
 | **Code Quality** | PR Code Reviewer · Continuous Docs · Code Coverage Report · License Compliance · Todo Tracker                                                                                         |
 | **Security**     | Security Scanner · Container Image Scanner                                                                                                                                            |
 | **Maintenance**  | Release Notes Generator · Auto Changelog · Dependency Update Checker · Branch Cleanup · Broken Link Checker                                                                           |
@@ -174,12 +183,12 @@ Each command activates the relevant skills automatically. Use them individually 
 | Guide                                      | Description                                                    |
 | ------------------------------------------ | -------------------------------------------------------------- |
 | [Getting Started](docs/getting-started.md) | Prerequisites, quickstart, what happens automatically          |
-| [Agents](docs/agents.md)                   | All 45+ agents with purpose, workflow, and usage examples      |
+| [Agents](docs/agents.md)                   | All 52+ agents with purpose, workflow, and usage examples      |
 | [Prompts](docs/prompts.md)                 | All 27+ prompts with inputs, outputs, and examples             |
 | [Instructions](docs/instructions.md)       | All 25+ instructions — auto-attached, context modes, on-demand |
-| [Skills](docs/skills.md)                   | All 34+ skills organized by domain                             |
+| [Skills](docs/skills.md)                   | All 47+ skills organized by domain                             |
 | [Skill Anatomy](docs/skill-anatomy.md)     | How to write and structure skills                              |
-| [Workflows](docs/workflows.md)             | All 25 workflows with triggers, inputs, and setup              |
+| [Workflows](docs/workflows.md)             | All 27 workflows with triggers, inputs, and setup              |
 | [Hooks](docs/hooks.md)                     | 10 hooks — formatting, guards, scanning, tracking, protection  |
 | [Templates](docs/templates.md)             | Issue forms and PR template customization                      |
 | [Installation](docs/installation.md)       | Automated installer, manual copy, git subtree                  |
@@ -214,7 +223,7 @@ templates/
 ├── instructions/             25+ coding rules (.instructions.md)
 ├── hooks/                    10 hook configs + scripts
 ├── references/               10 reference checklists
-├── workflows/                25 standalone GitHub Actions
+├── workflows/                27 standalone GitHub Actions
 ├── ISSUE_TEMPLATE/           Bug report + Feature request (YAML forms)
 ├── PULL_REQUEST_TEMPLATE.md
 └── copilot-instructions.md

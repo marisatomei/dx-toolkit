@@ -43,9 +43,9 @@ EXPLORE → OUTLINE → DEVELOP → CHECK → POLISH → LAUNCH
 - Every agent must have a clear `description` for discovery
 - Agents use `tools: ["read", "edit", "search", "execute", "github/*"]` unless they specifically need fewer tools
 - Agent prompts follow a Workflow → Constraints structure
-- There are three categories of agents (45+ total):
+- There are three categories of agents (52+ total):
   - **General-purpose** (9): bug-fixer, feature-implementer, refactorer, test-writer, docs-updater, docs-humanizer, security-fixer, performance-optimizer, dependency-updater
-  - **Technology-specialized** (34+): elixir-expert, phoenix-expert, typescript-expert, nextjs-expert, postgresql-expert, supabase-expert, docker-expert, wordpress-expert, design-systems-expert, frontend-expert, backend-expert, conventional-commits-expert, web-development-expert, react-expert, react-native-expert, expo-expert, tdd-expert, bdd-expert, payments-expert, python-expert, go-expert, rust-expert, swift-expert, kotlin-expert, flutter-expert, rails-expert, vue-expert, angular-expert, svelte-expert, graphql-expert, terraform-expert, architecture-advisor, devops-expert, monorepo-expert
+  - **Technology-specialized** (41+): elixir-expert, phoenix-expert, typescript-expert, nextjs-expert, postgresql-expert, supabase-expert, docker-expert, wordpress-expert, design-systems-expert, frontend-expert, backend-expert, conventional-commits-expert, web-development-expert, react-expert, react-native-expert, expo-expert, tdd-expert, bdd-expert, payments-expert, python-expert, go-expert, rust-expert, swift-expert, kotlin-expert, flutter-expert, rails-expert, vue-expert, angular-expert, svelte-expert, graphql-expert, terraform-expert, architecture-advisor, devops-expert, monorepo-expert, csharp-expert, aspnetcore-expert, blazor-expert, deepstream-expert, deepstream-plugin-expert, deepstream-inference-expert, tao-toolkit-expert
   - **Content-specialized** (2): seo-writer, marketing-expert
 
 ## Prompt Conventions
@@ -69,7 +69,7 @@ EXPLORE → OUTLINE → DEVELOP → CHECK → POLISH → LAUNCH
 
 ## Skill Conventions
 
-- Skills live in `templates/skills/<skill-name>/SKILL.md` (34+ skills across 10 domain categories)
+- Skills live in `templates/skills/<skill-name>/SKILL.md` (47+ skills across 12 domain categories)
 - Skill folder name must match the `name` field in frontmatter
 - Skills include step-by-step procedures with templates
 - Skills are self-contained — all necessary context is in the SKILL.md

@@ -42,7 +42,7 @@ EXPLORE → OUTLINE → DEVELOP → CHECK → POLISH → LAUNCH
 - Agent prompts follow a Workflow → Constraints structure
 - There are three categories of agents:
   - **General-purpose**: bug-fixer, feature-implementer, refactorer, test-writer, docs-updater, docs-humanizer, security-fixer, performance-optimizer, dependency-updater
-  - **Technology-specialized**: domain-specific experts for various tech stacks
+  - **Technology-specialized**: domain-specific experts for various tech stacks including C# (csharp-expert, aspnetcore-expert, blazor-expert) and NVIDIA DeepStream (deepstream-expert, deepstream-plugin-expert, deepstream-inference-expert, tao-toolkit-expert)
   - **Content-specialized**: seo-writer, marketing-expert
 
 ## Prompt Conventions
