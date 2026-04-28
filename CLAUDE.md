@@ -30,7 +30,7 @@ EXPLORE → OUTLINE → DEVELOP → CHECK → POLISH → LAUNCH
 ```
 templates/
 ├── agents/           52+ Copilot coding agents (.agent.md)
-├── skills/           47+ multi-step skills (SKILL.md)
+├── skills/           48+ multi-step skills (SKILL.md)
 ├── prompts/          27+ task prompts (.prompt.md)
 ├── instructions/     26+ coding rules (.instructions.md)
 ├── hooks/            10 hook configs + scripts

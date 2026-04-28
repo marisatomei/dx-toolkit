@@ -13,9 +13,9 @@
 | Component                                | Count | What it does                                                  |
 | ---------------------------------------- | ----- | ------------------------------------------------------------- |
 | [**Agents**](docs/agents.md)             | 52+   | Specialized Copilot coding agents — assign to issues, get PRs |
-| [**Prompts**](docs/prompts.md)           | 27+   | One-shot task templates via the `/` slash menu                |
+| [**Prompts**](docs/prompts.md)           | 34+   | One-shot task templates via the `/` slash menu                |
 | [**Instructions**](docs/instructions.md) | 26+   | Auto-attached rules per file type + context modes             |
-| [**Skills**](docs/skills.md)             | 47+   | Multi-step structured workflows organized by domain           |
+| [**Skills**](docs/skills.md)             | 48+   | Multi-step structured workflows organized by domain           |
 | [**Workflows**](docs/workflows.md)       | 27    | AI-powered GitHub Actions (review, triage, security, docs)    |
 | [**Hooks**](docs/hooks.md)               | 10    | Quality gates — format, guard, scan, lint, track, protect     |
 | [**References**](docs/skills.md)         | 10    | Checklists for testing, security, performance, mobile, APIs   |
@@ -124,11 +124,13 @@ Each command activates the relevant skills automatically. Use them individually 
 
 → [Full agent guide with usage examples](docs/agents.md)
 
-## Prompts (27+)
+## Prompts (34+)
 
 **Lifecycle commands**: `/explore` · `/outline` · `/develop` · `/check` · `/polish` · `/launch`
 
 **Task prompts**: `/scaffold-component` · `/write-tests` · `/explain-code` · `/refactor-function` · `/create-api-endpoint` · `/write-migration` · `/create-dockerfile` · `/review-security` · `/generate-types` · `/debug-error` · `/optimize-query` · `/commit-message` · `/refine-issue` · `/setup-monorepo` · `/write-adr` · `/create-workflow` · `/analyze-deps` · `/create-api-client` · `/document-api` · `/setup-ci` · `/create-test-fixtures` · `/review-accessibility` · `/setup-logging`
+
+**DeepStream prompts**: `/deepstream-video-infer` · `/deepstream-multi-stream-tracker` · `/deepstream-video-object-count` · `/deepstream-yolo-detection` · `/deepstream-rtvi-vlm-app` · `/deepstream-rtvi-vlm-microservice` · `/deepstream-nvdsanalytics`
 
 → [Full prompt guide with examples](docs/prompts.md)
 
@@ -142,7 +144,7 @@ Each command activates the relevant skills automatically. Use them individually 
 
 → [Full instructions guide](docs/instructions.md)
 
-## Skills (47+)
+## Skills (48+)
 
 | Category                          | Skills                                                                                                                                                                                                  |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -157,7 +159,7 @@ Each command activates the relevant skills automatically. Use them individually 
 | **Mobile**                        | mobile-release · mobile-testing                                                                                                                                                                         |
 | **Architecture**                  | monorepo-setup · architecture-review                                                                                                                                                                    |
 | **Project Management**            | estimation-and-sizing · incident-response                                                                                                                                                               |
-| **AI / Video Analytics**          | deepstream-pipeline · deepstream-plugin                                                                                                                                                                 |
+| **AI / Video Analytics**          | deepstream-dev · deepstream-pipeline · deepstream-plugin                                                                                                                                                |
 
 → [Full skills guide](docs/skills.md) · [Skill anatomy](docs/skill-anatomy.md)
 
@@ -186,7 +188,7 @@ Each command activates the relevant skills automatically. Use them individually 
 | [Agents](docs/agents.md)                   | All 52+ agents with purpose, workflow, and usage examples      |
 | [Prompts](docs/prompts.md)                 | All 27+ prompts with inputs, outputs, and examples             |
 | [Instructions](docs/instructions.md)       | All 25+ instructions — auto-attached, context modes, on-demand |
-| [Skills](docs/skills.md)                   | All 47+ skills organized by domain                             |
+| [Skills](docs/skills.md)                   | All 48+ skills organized by domain                             |
 | [Skill Anatomy](docs/skill-anatomy.md)     | How to write and structure skills                              |
 | [Workflows](docs/workflows.md)             | All 27 workflows with triggers, inputs, and setup              |
 | [Hooks](docs/hooks.md)                     | 10 hooks — formatting, guards, scanning, tracking, protection  |

@@ -183,7 +183,7 @@ Options:
 
 Components:
   Agents (52+)      Specialized AI coding agents
-  Skills (47+)      Multi-step structured workflows
+  Skills (48+)      Multi-step structured workflows
   Prompts (27+)     One-shot task templates
   Instructions (26+) Auto-attached coding rules
   Hooks (10)        Commit validation, secret scanning, auto-format, guard files
@@ -579,7 +579,7 @@ echo -e "  ${BOLD}Config dir:${NC}   $CONFIG_DIR/"
 echo -e "  ${BOLD}Project:${NC}      ${PROJECT_CHOICES[$project_idx]}"
 echo -e "  ${BOLD}Agents:${NC}       ${#AGENTS_CORE[@]} core + ${#AGENTS_TECH[@]} specialized"
 echo -e "  ${BOLD}Instructions:${NC} ${#INSTR_CORE[@]} universal + ${#INSTR_TECH[@]} tech-specific"
-echo -e "  ${BOLD}Skills:${NC}       47+ (language-agnostic)"
+echo -e "  ${BOLD}Skills:${NC}       48+ (language-agnostic)"
 echo -e "  ${BOLD}Prompts:${NC}      27+ (language-agnostic)"
 
 extras_summary=""

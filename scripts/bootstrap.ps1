@@ -158,7 +158,7 @@ Options:
 
 Components:
   Agents (52+)       Specialized AI coding agents
-  Skills (47+)       Multi-step structured workflows
+  Skills (48+)       Multi-step structured workflows
   Prompts (27+)      One-shot task templates
   Instructions (26+) Auto-attached coding rules
   Hooks (10)         Commit validation, secret scanning, auto-format, guard files
@@ -506,7 +506,7 @@ Write-Host "  Config dir:   $ConfigDir/"
 Write-Host "  Project:      $($ProjectChoices[$ProjectIdx])"
 Write-Host "  Agents:       $($AgentsCore.Count) core + $($AgentsTech.Count) specialized"
 Write-Host "  Instructions: $($InstrCore.Count) universal + $($InstrTech.Count) tech-specific"
-Write-Host '  Skills:       47+ (language-agnostic)'
+Write-Host '  Skills:       48+ (language-agnostic)'
 Write-Host '  Prompts:      27+ (language-agnostic)'
 
 $extrasSummary = @()

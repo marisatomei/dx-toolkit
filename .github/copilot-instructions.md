@@ -69,7 +69,7 @@ EXPLORE → OUTLINE → DEVELOP → CHECK → POLISH → LAUNCH
 
 ## Skill Conventions
 
-- Skills live in `templates/skills/<skill-name>/SKILL.md` (47+ skills across 12 domain categories)
+- Skills live in `templates/skills/<skill-name>/SKILL.md` (48+ skills across 12 domain categories)
 - Skill folder name must match the `name` field in frontmatter
 - Skills include step-by-step procedures with templates
 - Skills are self-contained — all necessary context is in the SKILL.md
