@@ -181,6 +181,21 @@ For workflows that use GitHub Copilot CLI:
 | ---------- | ---------------- | ------------------------------------------------------ |
 | `GH_TOKEN` | All AI workflows | Settings → Developer Settings → Personal Access Tokens |
 
+### 1b. Copilot CLI — Personal Skills (Optional)
+
+If you use [GitHub Copilot CLI](copilot-cli-setup.md) (`copilot` binary), you can also install skills as personal skills shared across all your projects:
+
+```bash
+# Install skills to ~/.copilot/skills/ (personal, applies everywhere)
+mkdir -p ~/.copilot/skills
+cp -r .copilot/skills/* ~/.copilot/skills/
+
+# Install global instructions
+cp .copilot/copilot-instructions.md ~/.copilot/copilot-instructions.md
+```
+
+The bootstrap script offers this automatically when you select **GitHub Copilot CLI** as your editor.
+
 ### 2. Adapt copilot-instructions.md
 
 The included `copilot-instructions.md` describes this toolkit. Replace or merge it with your project's instructions:

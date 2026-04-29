@@ -278,9 +278,17 @@ Write-Host ''
 $DefaultProjectName = Split-Path -Leaf $Target
 $ProjectName = Ask-Text -Prompt "What's your project name?" -Default $DefaultProjectName
 
+# --- Binary Detection ---
+$CopilotCliDetected = $false
+if (Get-Command copilot -ErrorAction SilentlyContinue) {
+    $CopilotCliDetected = $true
+    Write-Info 'GitHub Copilot CLI detected — project and personal skill install will be offered'
+}
+
 # --- Step 1: Editor / AI Tool ---
 $EditorChoices = @(
     'GitHub Copilot (VS Code)'
+    'GitHub Copilot CLI (terminal)'
     'Claude Code (terminal)'
     'Cursor'
     'Windsurf'
@@ -288,24 +296,27 @@ $EditorChoices = @(
 )
 $EditorIdx = Ask-Choice -Prompt 'Which AI coding tool do you use?' -Options $EditorChoices
 
-$InstallCopilot  = $false
-$InstallClaude   = $false
-$InstallCursor   = $false
-$InstallWindsurf = $false
+$InstallCopilot    = $false
+$InstallCopilotCli = $false
+$InstallClaude     = $false
+$InstallCursor     = $false
+$InstallWindsurf   = $false
 
 switch ($EditorIdx) {
-    0 { $InstallCopilot  = $true }
-    1 { $InstallClaude   = $true }
-    2 { $InstallCursor   = $true }
-    3 { $InstallWindsurf = $true }
-    4 { $InstallCopilot = $true; $InstallClaude = $true; $InstallCursor = $true; $InstallWindsurf = $true }
+    0 { $InstallCopilot    = $true }
+    1 { $InstallCopilotCli = $true }
+    2 { $InstallClaude     = $true }
+    3 { $InstallCursor     = $true }
+    4 { $InstallWindsurf   = $true }
+    5 { $InstallCopilot = $true; $InstallCopilotCli = $true; $InstallClaude = $true; $InstallCursor = $true; $InstallWindsurf = $true }
 }
 
 $ConfigDir = '.github'
 switch ($EditorIdx) {
-    1 { $ConfigDir = '.claude'   }
-    2 { $ConfigDir = '.cursor'   }
-    3 { $ConfigDir = '.windsurf' }
+    1 { $ConfigDir = '.copilot'  }
+    2 { $ConfigDir = '.claude'   }
+    3 { $ConfigDir = '.cursor'   }
+    4 { $ConfigDir = '.windsurf' }
 }
 
 # --- Step 2: Project Type ---
@@ -580,6 +591,12 @@ if ($InstallCopilot) {
                   'copilot-instructions.md' -ProjectName $ProjectName -ConfigDir $ConfigDir
     $Total++
 }
+if ($InstallCopilotCli) {
+    Copy-Template (Join-Path $SourceDir 'templates\copilot-instructions.md') `
+                  (Join-Path $Target '.copilot\copilot-instructions.md') `
+                  'copilot-instructions.md (.copilot/)' -ProjectName $ProjectName -ConfigDir $ConfigDir
+    $Total++
+}
 if ($InstallClaude) {
     Copy-Template (Join-Path $SourceDir 'templates\CLAUDE.md') (Join-Path $Target 'CLAUDE.md') 'CLAUDE.md' -ProjectName $ProjectName -ConfigDir $ConfigDir
     $Total++
@@ -641,13 +658,29 @@ Write-Host ''
 Write-Info 'Next steps:'
 Write-Host "  1. cd $Target"
 Write-Host "  2. Review installed files in $ConfigDir\"
-if ($InstallCopilot)  { Write-Host '  3. Open in VS Code -- agents and prompts are ready via Copilot Chat' }
+if ($InstallCopilot)    { Write-Host '  3. Open in VS Code -- agents and prompts are ready via Copilot Chat' }
+if ($InstallCopilotCli) {
+    Write-Host "  3. Run 'copilot' in your project -- skills are in $ConfigDir\skills\"
+    if ($CopilotCliDetected) {
+        $yn = Read-Host '  Also install skills as personal (global) skills to ~/.copilot/skills/? [Y/n]'
+        if ([string]::IsNullOrWhiteSpace($yn) -or $yn -match '^[Yy]') {
+            $personalSkillsDir = Join-Path $HOME '.copilot\skills'
+            New-Item -ItemType Directory -Force -Path $personalSkillsDir | Out-Null
+            Copy-Item -Path (Join-Path $Target "$ConfigDir\skills\*") -Destination $personalSkillsDir -Recurse -Force
+            Copy-Template (Join-Path $SourceDir 'templates\copilot-instructions.md') `
+                          (Join-Path $HOME '.copilot\copilot-instructions.md') `
+                          '~/.copilot/copilot-instructions.md (global)' -ProjectName $ProjectName -ConfigDir $ConfigDir
+            Write-Success 'Personal skills installed to ~/.copilot/skills/'
+        }
+    }
+}
 if ($InstallClaude)   { Write-Host "  3. Run 'claude' -- CLAUDE.md provides context automatically" }
 if ($InstallCursor)   { Write-Host '  3. Open in Cursor -- .cursorrules is configured' }
 if ($InstallWindsurf) { Write-Host '  3. Open in Windsurf -- .windsurfrules is configured' }
 Write-Host ''
 Write-Warn 'Customize these files with your project details (look for TODO comments):'
-if ($InstallCopilot)  { Write-Host "  * $ConfigDir\copilot-instructions.md" -ForegroundColor DarkGray }
+if ($InstallCopilot)    { Write-Host "  * $ConfigDir\copilot-instructions.md" -ForegroundColor DarkGray }
+if ($InstallCopilotCli) { Write-Host "  * $ConfigDir\copilot-instructions.md" -ForegroundColor DarkGray }
 if ($InstallClaude)   { Write-Host '  * CLAUDE.md'                           -ForegroundColor DarkGray }
 if ($InstallCursor)   { Write-Host '  * .cursorrules'                        -ForegroundColor DarkGray }
 if ($InstallWindsurf) { Write-Host '  * .windsurfrules'                      -ForegroundColor DarkGray }

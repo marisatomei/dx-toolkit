@@ -305,10 +305,19 @@ DEFAULT_PROJECT_NAME="$(basename "$TARGET")"
 echo ""
 PROJECT_NAME=$(ask_text "What's your project name?" "$DEFAULT_PROJECT_NAME")
 
+# ─── Binary Detection ────────────────────────────────────────
+
+COPILOT_CLI_DETECTED=false
+if command -v copilot &>/dev/null; then
+  COPILOT_CLI_DETECTED=true
+  info "GitHub Copilot CLI detected — project and personal skill install will be offered"
+fi
+
 # ─── Step 1: Editor / AI Tool ────────────────────────────────
 
 EDITOR_CHOICES=(
   "GitHub Copilot (VS Code)"
+  "GitHub Copilot CLI (terminal)"
   "Claude Code (terminal)"
   "Cursor"
   "Windsurf"
@@ -317,24 +326,27 @@ EDITOR_CHOICES=(
 editor_idx=$(ask_choice "Which AI coding tool do you use?" "${EDITOR_CHOICES[@]}")
 
 INSTALL_COPILOT=false
+INSTALL_COPILOT_CLI=false
 INSTALL_CLAUDE=false
 INSTALL_CURSOR=false
 INSTALL_WINDSURF=false
 
 case "$editor_idx" in
   0) INSTALL_COPILOT=true ;;
-  1) INSTALL_CLAUDE=true ;;
-  2) INSTALL_CURSOR=true ;;
-  3) INSTALL_WINDSURF=true ;;
-  4) INSTALL_COPILOT=true; INSTALL_CLAUDE=true; INSTALL_CURSOR=true; INSTALL_WINDSURF=true ;;
+  1) INSTALL_COPILOT_CLI=true ;;
+  2) INSTALL_CLAUDE=true ;;
+  3) INSTALL_CURSOR=true ;;
+  4) INSTALL_WINDSURF=true ;;
+  5) INSTALL_COPILOT=true; INSTALL_COPILOT_CLI=true; INSTALL_CLAUDE=true; INSTALL_CURSOR=true; INSTALL_WINDSURF=true ;;
 esac
 
 # Determine config directory based on primary editor choice
 CONFIG_DIR=".github"
 case "$editor_idx" in
-  1) CONFIG_DIR=".claude" ;;
-  2) CONFIG_DIR=".cursor" ;;
-  3) CONFIG_DIR=".windsurf" ;;
+  1) CONFIG_DIR=".copilot" ;;
+  2) CONFIG_DIR=".claude" ;;
+  3) CONFIG_DIR=".cursor" ;;
+  4) CONFIG_DIR=".windsurf" ;;
 esac
 
 # ─── Step 2: Project Type ────────────────────────────────────
@@ -673,6 +685,13 @@ if [[ "$INSTALL_COPILOT" == true ]]; then
   TOTAL=$((TOTAL + 1))
 fi
 
+if [[ "$INSTALL_COPILOT_CLI" == true ]]; then
+  copy_template "$SOURCE_DIR/templates/copilot-instructions.md" \
+                "$TARGET/.copilot/copilot-instructions.md" \
+                "copilot-instructions.md (.copilot/)"
+  TOTAL=$((TOTAL + 1))
+fi
+
 if [[ "$INSTALL_CLAUDE" == true ]]; then
   copy_template "$SOURCE_DIR/templates/CLAUDE.md" "$TARGET/CLAUDE.md" "CLAUDE.md"
   TOTAL=$((TOTAL + 1))
@@ -745,6 +764,23 @@ echo "  2. Review installed files in $CONFIG_DIR/"
 if [[ "$INSTALL_COPILOT" == true ]]; then
   echo "  3. Open in VS Code — agents and prompts are ready via Copilot Chat"
 fi
+if [[ "$INSTALL_COPILOT_CLI" == true ]]; then
+  echo "  3. Run 'copilot' in your project — skills are in $CONFIG_DIR/skills/"
+  if [[ "$COPILOT_CLI_DETECTED" == true ]]; then
+    if ask_yn "  Also install skills as personal (global) skills to ~/.copilot/skills/?" "y"; then
+      mkdir -p "$HOME/.copilot/skills"
+      if command -v rsync &>/dev/null; then
+        rsync -a "$TARGET/$CONFIG_DIR/skills/" "$HOME/.copilot/skills/"
+      else
+        cp -R "$TARGET/$CONFIG_DIR/skills/." "$HOME/.copilot/skills/"
+      fi
+      copy_template "$SOURCE_DIR/templates/copilot-instructions.md" \
+                    "$HOME/.copilot/copilot-instructions.md" \
+                    "~/.copilot/copilot-instructions.md (global)"
+      success "Personal skills installed to ~/.copilot/skills/"
+    fi
+  fi
+fi
 if [[ "$INSTALL_CLAUDE" == true ]]; then
   echo "  3. Run 'claude' — CLAUDE.md provides context automatically"
 fi
@@ -758,6 +794,9 @@ fi
 echo ""
 warn "Customize these files with your project's details (look for TODO comments):"
 if [[ "$INSTALL_COPILOT" == true ]]; then
+  echo -e "  ${DIM}• $CONFIG_DIR/copilot-instructions.md${NC}"
+fi
+if [[ "$INSTALL_COPILOT_CLI" == true ]]; then
   echo -e "  ${DIM}• $CONFIG_DIR/copilot-instructions.md${NC}"
 fi
 if [[ "$INSTALL_CLAUDE" == true ]]; then
