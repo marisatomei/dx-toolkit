@@ -776,8 +776,8 @@ if [[ "$INSTALL_COPILOT_CLI" == true ]]; then
       fi
       copy_template "$SOURCE_DIR/templates/copilot-instructions.md" \
                     "$HOME/.copilot/copilot-instructions.md" \
-                    "~/.copilot/copilot-instructions.md (global)"
-      success "Personal skills installed to ~/.copilot/skills/"
+                    "$HOME/.copilot/copilot-instructions.md (global)"
+      success "Personal skills installed to $HOME/.copilot/skills/"
     fi
   fi
 fi
